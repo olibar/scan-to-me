@@ -21,3 +21,6 @@ xcuserdata/
 # Claude Code local state
 .claude/settings.local.json
 .push-reviewed
+
+# Generated App Store screenshots (design/screenshots.sh)
+appstore/screenshots/

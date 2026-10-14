@@ -90,8 +90,11 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
   supported printers, support, privacy policy (`docs/privacy.md`), linked from App Store
   Connect. Reviewers have no compatible printer: the review notes explain the
   requirement; attach a screen recording of a real scan.
-- Screenshots: 6.9" iPhone (iPhone 17 Pro Max simulator, 1320x2868) and 13"
-  iPad (2064x2752); use the Manual add with the printer's IP from a simulator.
+- Screenshots: `zsh design/screenshots.sh` captures 4 screens x 4 languages
+  for the 6.9" iPhone (1320x2868) and 13" iPad (2064x2752) simulators into
+  `appstore/screenshots/` (git-ignored), numbered in upload order. It runs a
+  stand-in printer on this Mac and seeds sample state; the debug-only launch
+  options `-ScreenshotTab` / `-ScreenshotPreview` open the screens.
 
 ## Git
 
