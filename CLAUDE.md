@@ -26,6 +26,9 @@ brand names out of identifiers, UI strings and App Store metadata.
   `ScanToMe.xcodeproj`, which is generated from `project.yml` with XcodeGen.
   Edit `project.yml`, never the target settings in Xcode; regenerate with
   `xcodegen generate` and commit both.
+- `design/make-icon.swift` -- generator of the app icon (`swift
+  design/make-icon.swift` from the repo root rewrites AppIcon.png). Change the
+  icon there, never by editing the PNG.
 
 ## Commands
 
