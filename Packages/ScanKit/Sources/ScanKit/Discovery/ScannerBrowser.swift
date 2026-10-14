@@ -62,14 +62,14 @@ public enum ScannerBrowser {
         }
     }
 
-    /// Waits until a scanner with this instance name shows up, or the timeout passes.
-    public static func find(serviceName: String, timeout: Duration = .seconds(5)) async -> DiscoveredScanner? {
-        Log.discover.debug("discover: looking for \(serviceName)")
-        let want = serviceName.lowercased()
+    /// Waits until this printer is announced (matched by UUID or Bonjour
+    /// name), or the timeout passes.
+    public static func find(_ printer: PrinterRecord, timeout: Duration = .seconds(5)) async -> DiscoveredScanner? {
+        Log.discover.debug("discover: looking for \(printer.serviceName ?? printer.address) uuid=\(printer.uuid ?? "-")")
         return await withTaskGroup(of: DiscoveredScanner?.self) { group in
             group.addTask {
                 for await list in browse() {
-                    if let hit = list.first(where: { $0.serviceName.lowercased() == want }) { return hit }
+                    if let hit = list.first(where: { printer.matches($0) }) { return hit }
                 }
                 return nil
             }
@@ -87,10 +87,15 @@ public enum ScannerBrowser {
         guard case let .service(name, _, _, _) = result.endpoint else { return nil }
         var model: String?
         var mfg: String?
+        var note: String?
+        var uuid: String?
         if case let .bonjour(txt) = result.metadata {
             model = txt.dictionary["ty"]
             mfg = txt.dictionary["mfg"]
+            note = txt.dictionary["note"]
+            uuid = txt.dictionary["UUID"]
         }
-        return DiscoveredScanner(serviceName: name, model: model, mfg: mfg, endpoint: result.endpoint)
+        return DiscoveredScanner(serviceName: name, model: model, mfg: mfg, note: note, uuid: uuid,
+                                 endpoint: result.endpoint)
     }
 }

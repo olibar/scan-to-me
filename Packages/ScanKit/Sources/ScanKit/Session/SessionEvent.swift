@@ -7,6 +7,8 @@ public enum SessionStatus: Sendable, Equatable {
     case scanning(pagesSoFar: Int)
     case waitingForMorePages(pages: Int)
     case error(String)
+    /// Not on the current network; retried in the background.
+    case unreachable
     case stopped
 
     public var isReady: Bool {

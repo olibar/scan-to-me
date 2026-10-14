@@ -85,13 +85,28 @@ public actor PrinterSession {
             } catch {
                 if Task.isCancelled { return }
                 if ContinuousClock.now - started > .seconds(60) { backoff = .seconds(5) }
-                log(.error, "session ended, reconnecting in \(backoff): \(error)")
-                emit(.status(.error("\(error)")))
+                if Self.isUnreachable(error) {
+                    log(.info, "printer not reachable, retrying in \(backoff): \(error)")
+                    emit(.status(.unreachable))
+                } else {
+                    log(.error, "session ended, reconnecting in \(backoff): \(error)")
+                    emit(.status(.error("\(error)")))
+                }
                 do { try await Task.sleep(for: backoff) } catch { return }
                 if backoff < .seconds(60) { backoff *= 2 }
                 continue
             }
         }
+    }
+
+    /// Errors meaning the printer is not on this network, as opposed to a
+    /// printer that answered and then misbehaved.
+    static func isUnreachable(_ error: any Error) -> Bool {
+        if case .unreachable = error as? LEDMError { return true }
+        guard let url = error as? URLError else { return false }
+        let codes: Set<URLError.Code> = [.timedOut, .cannotFindHost, .cannotConnectToHost, .dnsLookupFailed,
+                                         .networkConnectionLost, .notConnectedToInternet]
+        return codes.contains(url.code)
     }
 
     private func runOnce() async throws {
@@ -103,7 +118,7 @@ public actor PrinterSession {
             guard let rediscover, printer.serviceName != nil else { throw error }
             log(.warning, "printer unreachable at \(address.host):\(address.port), looking it up via Bonjour: \(error)")
             guard let found = await rediscover(printer) else {
-                throw LEDMError.timeout("printer \(printer.displayName) not found via Bonjour")
+                throw LEDMError.unreachable("printer \(printer.displayName) not found via Bonjour")
             }
             log(.info, "printer found at \(found.host):\(found.port)")
             emit(.addressChanged(host: found.host, port: found.port))

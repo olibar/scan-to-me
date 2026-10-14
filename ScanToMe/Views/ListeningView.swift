@@ -55,7 +55,7 @@ struct ListeningView: View {
                         Text(printer.address).font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
-                    StatusBadge(status: model.statuses[printer.id] ?? .stopped)
+                    PrinterStatusView(printer: printer)
                 }
             }
         }
@@ -106,8 +106,32 @@ struct StatusBadge: View {
         case let .error(message):
             Label("Error", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.red)
                 .help(message)
+        case .unreachable:
+            Label("Not on this network", systemImage: "wifi.slash").foregroundStyle(.secondary)
         case .stopped:
             Label("Stopped", systemImage: "pause.circle").foregroundStyle(.secondary)
+        }
+    }
+}
+
+/// The session's status while listening, otherwise whether the printer is on
+/// the current network.
+struct PrinterStatusView: View {
+    @Environment(AppModel.self) private var model
+    let printer: PrinterRecord
+
+    var body: some View {
+        if model.isListening, let status = model.statuses[printer.id], status != .stopped {
+            StatusBadge(status: status)
+        } else {
+            switch model.presence[printer.id] {
+            case .none:
+                Label("Checking", systemImage: "ellipsis.circle").foregroundStyle(.secondary)
+            case .some(true):
+                Label("Online", systemImage: "wifi").foregroundStyle(.green)
+            case .some(false):
+                Label("Not on this network", systemImage: "wifi.slash").foregroundStyle(.secondary)
+            }
         }
     }
 }

@@ -11,6 +11,8 @@ public enum LEDMError: Error, Sendable, CustomStringConvertible {
     case timeout(String)
     case unsupportedPrinter(resources: [String])
     case invalidResponse(String)
+    /// The printer is not on the current network.
+    case unreachable(String)
 
     /// True when the printer answered 404.
     public var isNotFound: Bool {
@@ -36,6 +38,8 @@ public enum LEDMError: Error, Sendable, CustomStringConvertible {
             return "printer offers neither WalkupScan nor WalkupScanToComp (resources: \(resources.joined(separator: ", ")))"
         case let .invalidResponse(what):
             return "invalid response: \(what)"
+        case let .unreachable(what):
+            return "not reachable: \(what)"
         }
     }
 }

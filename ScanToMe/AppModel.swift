@@ -12,6 +12,9 @@ final class AppModel {
 
     var printers: [PrinterRecord] = []
     var statuses: [UUID: SessionStatus] = [:]
+    /// Whether each printer is on the current network; missing while the
+    /// first check runs. Printers with a running session report through it.
+    var presence: [UUID: Bool] = [:]
     var log: [LogEntry] = []
     var recentScans: [SavedScan] = []
     var preferences: ScanPreferences
@@ -34,6 +37,8 @@ final class AppModel {
     private var saveTask: Task<Void, Never>?
     /// Pending restart after a settings edit; replaced by each new edit.
     private var restartTask: Task<Void, Never>?
+    /// Periodic presence check, running while the app is in the foreground.
+    private var presenceTask: Task<Void, Never>?
 
     init() {
         preferences = ScanPreferences.defaults(deviceName: UIDevice.current.name)
@@ -67,11 +72,13 @@ final class AppModel {
         wantsListening = true
         lastError = nil
         UIApplication.shared.isIdleTimerDisabled = true
-        let sink = FolderScanSink(directory: folder.url, securityScoped: false)
-        for printer in printers {
-            start(printer: printer, sink: sink)
+        // Bonjour printers start once they are seen on this network, so an
+        // identical printer at another site is never contacted by mistake.
+        for printer in printers where !printer.isBonjour || presence[printer.id] == true {
+            start(printer: printer, folder: folder.url)
         }
         persist()
+        Task { await refreshPresence() }
     }
 
     /// Cancels every session and returns their runners, which finish once
@@ -118,12 +125,12 @@ final class AppModel {
         startListening()
     }
 
-    private func start(printer: PrinterRecord, sink: FolderScanSink) {
+    private func start(printer: PrinterRecord, folder: URL) {
+        guard sessions[printer.id] == nil else { return }
+        Self.log.debug("app: start session \(printer.displayName) \(printer.address)")
+        let sink = FolderScanSink(directory: folder, securityScoped: false)
         let rediscover: PrinterSession.Rediscover = { record in
-            guard let name = record.serviceName,
-                  let found = await ScannerBrowser.find(serviceName: name),
-                  let resolved = try? await EndpointResolver.resolve(found.endpoint) else { return nil }
-            return (resolved.host, resolved.port)
+            await PrinterProbe.locate(record)
         }
         let session = PrinterSession(printer: printer, preferences: preferences, sink: sink, rediscover: rediscover)
         statuses[printer.id] = .connecting
@@ -141,6 +148,8 @@ final class AppModel {
         switch event {
         case let .status(s):
             statuses[id] = s
+            if s.isReady { presence[id] = true }
+            if s == .unreachable { presence[id] = false }
         case let .log(entry):
             log.append(entry)
             if log.count > 500 { log.removeFirst(log.count - 500) }
@@ -179,6 +188,7 @@ final class AppModel {
         Self.log.debug("app: scene phase \(String(describing: phase)) listening=\(self.isListening)")
         switch phase {
         case .background:
+            stopPresenceChecks()
             guard isListening else { return }
             restartTask?.cancel()
             let running = Array(sessions.values)
@@ -199,6 +209,7 @@ final class AppModel {
                 backgroundGuard.end()
             }
         case .active:
+            startPresenceChecks()
             if wantsListening, !isListening, !printers.isEmpty { startListening() }
         default:
             break
@@ -207,14 +218,90 @@ final class AppModel {
 
     // MARK: - Printers
 
-    func addPrinter(_ record: PrinterRecord) {
-        guard !printers.contains(where: { $0.host == record.host && $0.port == record.port }) else { return }
-        Self.log.debug("app: add printer \(record.displayName) \(record.address)")
-        printers.append(record)
-        persist()
-        if isListening, let folder = outputFolder {
-            start(printer: record, sink: FolderScanSink(directory: folder.url, securityScoped: false))
+    /// Adds a printer unless it is already in the list (same UUID, Bonjour
+    /// name or address); returns the existing entry in that case.
+    @discardableResult
+    func addPrinter(_ record: PrinterRecord, present: Bool = false) -> PrinterRecord? {
+        if let existing = printers.first(where: { $0.isSamePrinter(as: record) }) {
+            Self.log.debug("app: add printer skipped, same as \(existing.displayName)")
+            return existing
         }
+        Self.log.debug("app: add printer \(record.displayName) \(record.address) uuid=\(record.uuid ?? "-")")
+        printers.append(record)
+        if present { presence[record.id] = true }
+        persist()
+        if isListening, let folder = outputFolder, present || !record.isBonjour {
+            start(printer: record, folder: folder.url)
+        }
+        return nil
+    }
+
+    /// Renames a printer; a running session restarts so logs and saved scans
+    /// carry the new name.
+    func renamePrinter(_ id: UUID, to name: String) {
+        let name = name.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty, let i = printers.firstIndex(where: { $0.id == id }),
+              printers[i].displayName != name else { return }
+        Self.log.debug("app: rename printer \(self.printers[i].displayName) -> \(name)")
+        printers[i].displayName = name
+        persist()
+        guard let running = sessions.removeValue(forKey: id) else { return }
+        running.runner.cancel()
+        running.pump.cancel()
+        let printer = printers[i]
+        Task {
+            await running.runner.value
+            if isListening, let folder = outputFolder { start(printer: printer, folder: folder.url) }
+        }
+    }
+
+    // MARK: - Presence
+
+    private func startPresenceChecks() {
+        presenceTask?.cancel()
+        presenceTask = Task {
+            while !Task.isCancelled {
+                await refreshPresence()
+                try? await Task.sleep(for: .seconds(30))
+            }
+        }
+    }
+
+    private func stopPresenceChecks() {
+        presenceTask?.cancel()
+        presenceTask = nil
+    }
+
+    /// Checks the printers that have no running session; starts a session
+    /// for each one that turned up while listening.
+    func refreshPresence() async {
+        let targets = printers.filter { sessions[$0.id] == nil }
+        guard !targets.isEmpty else { return }
+        Self.log.debug("app: presence check printers=\(targets.count)")
+        await withTaskGroup(of: (UUID, String, Int, Bool).self) { group in
+            for p in targets {
+                group.addTask {
+                    let found = await PrinterProbe.locate(p)
+                    return (p.id, found?.host ?? "", found?.port ?? 0, found != nil)
+                }
+            }
+            for await (id, host, port, present) in group {
+                applyPresence(id, present ? (host, port) : nil)
+            }
+        }
+    }
+
+    private func applyPresence(_ id: UUID, _ found: (host: String, port: Int)?) {
+        guard let i = printers.firstIndex(where: { $0.id == id }) else { return }
+        presence[id] = found != nil
+        Self.log.debug("app: \(self.printers[i].displayName) present=\(found != nil)")
+        guard let found else { return }
+        if printers[i].host != found.host || printers[i].port != found.port {
+            printers[i].host = found.host
+            printers[i].port = found.port
+            persist()
+        }
+        if isListening, let folder = outputFolder { start(printer: printers[i], folder: folder.url) }
     }
 
     func removePrinter(_ record: PrinterRecord) {
@@ -225,6 +312,7 @@ final class AppModel {
             running.pump.cancel()
         }
         statuses[record.id] = nil
+        presence[record.id] = nil
         persist()
     }
 
