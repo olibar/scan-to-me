@@ -8,7 +8,7 @@ phone, and the pages arrive over WiFi as a PDF or JPEG in the folder you chose
 Supported today: HP inkjet all-in-ones, through either of their built-in
 interfaces: LEDM on models from roughly 2010-2020 (Photosmart, OfficeJet,
 ENVY, Deskjet; port 8080, or 80 on some), or eSCL walkup subscriptions on
-newer models that dropped LEDM (port 80). The app picks whichever the printer
+newer models that dropped LEDM (announced port, else 80). The app picks whichever the printer
 offers. Nothing is installed on the printer. The app is independent and
 not affiliated with or endorsed by any printer manufacturer. It started as the
 iOS sibling of the desktop client [hpscan](https://github.com/olibar/hpscan);

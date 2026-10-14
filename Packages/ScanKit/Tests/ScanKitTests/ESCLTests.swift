@@ -50,12 +50,15 @@ actor FakeESCLPrinter: HTTPTransport {
     var pagesLeft: [Int: Int] = [:]
     var jobDeletes = 0
     var requests: [String] = []
+    /// When set, connections to any other port fail, like a real device.
+    var onlyPort: Int?
     let jpeg = Fixtures.jpeg(width: 30, height: 40, components: 3)
 
     func push(_ event: Data) { pending.append(event) }
     func setAdfLoaded(_ v: Bool) { adfLoaded = v }
     func setBusyOnce(_ v: Bool) { busyOnce = v }
     func setSubscriptionMissing(_ v: Bool) { subscriptionMissing = v }
+    func setOnlyPort(_ p: Int?) { onlyPort = p }
 
     var subURI: String { "/eSCL/WalkupSubscriptions/sub-\(subscriptions)" }
 
@@ -63,6 +66,7 @@ actor FakeESCLPrinter: HTTPTransport {
         let url = request.url!
         let path = url.path
         let method = request.httpMethod ?? "GET"
+        if let onlyPort, (url.port ?? 80) != onlyPort { throw URLError(.cannotConnectToHost) }
         requests.append("\(method) \(path)")
         func reply(_ status: Int, _ body: Data = Data(), headers: [String: String] = [:]) -> (Data, HTTPURLResponse) {
             (body, HTTPURLResponse(url: url, statusCode: status, httpVersion: "HTTP/1.1", headerFields: headers)!)
@@ -172,8 +176,8 @@ struct ESCLParsingTests {
         #expect(c.absolute("/eSCL/ScanJobs/1/") == "http://fake/eSCL/ScanJobs/1")
         #expect(c.absolute("http://10.0.0.5/eSCL/ScanJobs/2") == "http://10.0.0.5/eSCL/ScanJobs/2")
         #expect(ESCLClient(host: "fake", port: 8081, transport: FakeESCLPrinter()).baseURL.absoluteString == "http://fake:8081/eSCL")
-        #expect(ESCLClient.port(forRecorded: 8080) == 80)
-        #expect(ESCLClient.port(forRecorded: 80) == 80)
+        #expect(ESCLClient.candidatePorts(forRecorded: 8080) == [8080, 80])
+        #expect(ESCLClient.candidatePorts(forRecorded: 80) == [80])
     }
 }
 
@@ -208,6 +212,17 @@ struct ESCLSessionFlowTests {
         task.cancel()
         _ = await task.value
         #expect(await printer.unsubscribes == 1)
+    }
+
+    @Test func eSCLOnTheAnnouncedPortOrPort80() async {
+        for port in [8080, 80] {
+            let printer = FakeESCLPrinter()
+            await printer.setOnlyPort(port)
+            let (session, task) = await start(printer, sink: MemorySink())
+            #expect(await waitStatus(session, isReady), "eSCL served on \(port)")
+            task.cancel()
+            _ = await task.value
+        }
     }
 
     @Test func flatbedPagesBecomeOnePDF() async {

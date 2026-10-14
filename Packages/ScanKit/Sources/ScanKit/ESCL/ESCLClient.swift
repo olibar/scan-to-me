@@ -28,10 +28,20 @@ public struct ESCLClient: Sendable {
         Log.escl.debug("escl: new client \(base.absoluteString)")
     }
 
-    /// The eSCL port for a printer recorded with `port`. LEDM lives on 8080
-    /// and eSCL never does; anything else is taken as given.
-    public static func port(forRecorded port: Int) -> Int {
-        port == 8080 ? 80 : port
+    /// Ports to try, in order, for a printer recorded with `port`: the
+    /// recorded one first (some printers announce eSCL on 8080, next to
+    /// LEDM), then the default HTTP port where most serve it.
+    public static func candidatePorts(forRecorded port: Int) -> [Int] {
+        port == 80 ? [80] : [port, 80]
+    }
+
+    /// The first candidate port that answers on eSCL, as a client.
+    public static func locate(host: String, recordedPort: Int, transport: (any HTTPTransport)?) async -> ESCLClient? {
+        for port in candidatePorts(forRecorded: recordedPort) {
+            let candidate = ESCLClient(host: host, port: port, transport: transport)
+            if await candidate.probe() { return candidate }
+        }
+        return nil
     }
 
     struct Response: Sendable {
