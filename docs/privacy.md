@@ -1,3 +1,8 @@
+---
+title: Privacy
+permalink: /privacy/
+---
+
 # Scan to Me - Privacy Policy
 
 Last updated: 2026-10-14

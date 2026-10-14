@@ -111,4 +111,6 @@ terminal, handy to validate a new printer model.
 
 ## License
 
-MIT, see LICENSE. Privacy policy: [PRIVACY.md](PRIVACY.md).
+MIT, see LICENSE. Privacy policy: [docs/privacy.md](docs/privacy.md). Website (supported
+printers, support): https://olibar.github.io/scan-to-me/ (GitHub Pages from
+`docs/`).

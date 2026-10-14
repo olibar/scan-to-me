@@ -57,7 +57,8 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
   (`com.sinimed.hpscan`, "Scan to Me for HP printers") was rejected for naming
   HP hardware without authorization and is abandoned.
 - App Review: no printer brand in the name, subtitle, keywords, description,
-  screenshots or in-app text. The supported-printer list lives on the website
+  screenshots or in-app text. Store texts and review notes are kept in
+  `appstore/metadata.md`; update it with every submission. The supported-printer list lives on the website
   (`docs/`, GitHub Pages), used as the Support URL.
 - To ship: bump `MARKETING_VERSION` (and `CURRENT_PROJECT_VERSION` for every
   upload) in `project.yml`, run `xcodegen generate`, commit, tag `vX.Y.Z`,
@@ -67,7 +68,8 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
 - `ScanToMe/Info.plist` carries `ITSAppUsesNonExemptEncryption = NO` (plain
   HTTP only) and `ScanToMe/PrivacyInfo.xcprivacy` declares no tracking and no
   collected data; keep both true if networking or analytics ever change.
-- The privacy policy is `PRIVACY.md` in this repo, linked from App Store
+- The website is `docs/` (GitHub Pages, https://olibar.github.io/scan-to-me/):
+  supported printers, support, privacy policy (`docs/privacy.md`), linked from App Store
   Connect. Reviewers have no compatible printer: the review notes explain the
   requirement; attach a screen recording of a real scan.
 - Screenshots: 6.9" iPhone (iPhone 17 Pro Max simulator, 1320x2868) and 13"

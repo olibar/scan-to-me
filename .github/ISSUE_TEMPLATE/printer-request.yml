@@ -1,0 +1,37 @@
+name: Printer request or report
+description: Ask for a printer to be supported, or tell us how Scan to Me works with yours.
+title: "Printer: "
+labels: ["printer"]
+body:
+  - type: input
+    id: model
+    attributes:
+      label: Printer model
+      description: Exact name, as printed on the printer or shown in its network settings.
+      placeholder: e.g. OfficeJet Pro 8025e
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is this?
+      options:
+        - Please support this printer
+        - It works (add it to the list)
+        - It does not work
+    validations:
+      required: true
+  - type: dropdown
+    id: panel
+    attributes:
+      label: Does the printer's screen offer "Scan to Computer" (or "Scan > Computer")?
+      options:
+        - "Yes"
+        - "No"
+        - Not sure
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What happened? For problems, paste the activity log (Listen tab, magnifier icon, Copy).
+      render: text
