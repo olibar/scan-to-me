@@ -1,0 +1,2376 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%@ - %lld pages - %@": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ - %#@pages@ - %3$@"
+          },
+          "substitutions": {
+            "pages": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg page"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg pages"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ - %#@pages@ - %3$@"
+          },
+          "substitutions": {
+            "pages": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg p\u00e1gina"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg p\u00e1ginas"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ - %#@pages@ - %3$@"
+          },
+          "substitutions": {
+            "pages": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "one": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg page"
+                    }
+                  },
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg pages"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ - %#@pages@ - %3$@"
+          },
+          "substitutions": {
+            "pages": {
+              "argNum": 2,
+              "formatSpecifier": "lld",
+              "variations": {
+                "plural": {
+                  "other": {
+                    "stringUnit": {
+                      "state": "translated",
+                      "value": "%arg \u9875"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "%@ Still using the previous settings.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Se siguen usando los ajustes anteriores."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ Les r\u00e9glages pr\u00e9c\u00e9dents restent utilis\u00e9s."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ \u4ecd\u5728\u4f7f\u7528\u4e4b\u524d\u7684\u8bbe\u7f6e\u3002"
+          }
+        }
+      }
+    },
+    "%@ can't be opened right now (%@). Scans are saved in the app folder until it is available again.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se puede abrir %1$@ en este momento (%2$@). Los escaneos se guardan en la carpeta de la app hasta que vuelva a estar disponible."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ est inaccessible pour le moment (%2$@). Les num\u00e9risations sont enregistr\u00e9es dans le dossier de l'app jusqu'\u00e0 ce qu'il soit de nouveau disponible."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6682\u65f6\u65e0\u6cd5\u6253\u5f00 %1$@\uff08%2$@\uff09\u3002\u5728\u5176\u6062\u590d\u53ef\u7528\u4e4b\u524d\uff0c\u626b\u63cf\u4ef6\u5c06\u4fdd\u5b58\u5728 App \u6587\u4ef6\u5939\u4e2d\u3002"
+          }
+        }
+      }
+    },
+    "%@ will be deleted from its folder. This cannot be undone.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ se eliminar\u00e1 de su carpeta. Esta acci\u00f3n no se puede deshacer."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ sera supprim\u00e9 de son dossier. Cette action est irr\u00e9versible."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5c06\u4ece\u6240\u5728\u6587\u4ef6\u5939\u4e2d\u5220\u9664 %@\u3002\u6b64\u64cd\u4f5c\u65e0\u6cd5\u64a4\u9500\u3002"
+          }
+        }
+      }
+    },
+    "%@:%lld is already in your list as \"%@\".": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@:%2$lld ya est\u00e1 en tu lista como \u00ab%3$@\u00bb."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@:%2$lld figure d\u00e9j\u00e0 dans votre liste sous le nom \u00ab %3$@ \u00bb."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@:%2$lld \u5df2\u5728\u5217\u8868\u4e2d\uff0c\u540d\u79f0\u4e3a\u201c%3$@\u201d\u3002"
+          }
+        }
+      }
+    },
+    "%lld dpi": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ppp"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ppp"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld dpi"
+          }
+        }
+      }
+    },
+    "%lld pages, more?": {
+      "localizations": {
+        "en": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld page, more?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pages, more?"
+                }
+              }
+            }
+          }
+        },
+        "es": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld p\u00e1gina, \u00bfotra?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld p\u00e1ginas, \u00bfotra?"
+                }
+              }
+            }
+          }
+        },
+        "fr": {
+          "variations": {
+            "plural": {
+              "one": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld page, une autre ?"
+                }
+              },
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld pages, une autre ?"
+                }
+              }
+            }
+          }
+        },
+        "zh-Hans": {
+          "variations": {
+            "plural": {
+              "other": {
+                "stringUnit": {
+                  "state": "translated",
+                  "value": "%lld \u9875\uff0c\u8fd8\u6709\u5417\uff1f"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "A4": {
+      "shouldTranslate": false
+    },
+    "About": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acerca de"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00c0 propos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5173\u4e8e"
+          }
+        }
+      }
+    },
+    "Activity": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Actividad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Activit\u00e9"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6d3b\u52a8"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6dfb\u52a0"
+          }
+        }
+      }
+    },
+    "Add a printer in the Printers tab to get started.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Para empezar, a\u00f1ade una impresora en la pesta\u00f1a Impresoras."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pour commencer, ajoutez une imprimante dans l'onglet Imprimantes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u9996\u5148\uff0c\u8bf7\u5728\u201c\u6253\u5370\u673a\u201d\u6807\u7b7e\u9875\u4e2d\u6dfb\u52a0\u6253\u5370\u673a\u3002"
+          }
+        }
+      }
+    },
+    "Add printer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir impresora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter une imprimante"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6dfb\u52a0\u6253\u5370\u673a"
+          }
+        }
+      }
+    },
+    "Added as %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adida como %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajout\u00e9e : %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5df2\u6dfb\u52a0\u4e3a %@"
+          }
+        }
+      }
+    },
+    "Address": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direcci\u00f3n"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adresse"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5730\u5740"
+          }
+        }
+      }
+    },
+    "Also add JPEG scans to Photos": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00f1adir tambi\u00e9n los JPEG a Fotos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajouter aussi les JPEG \u00e0 Photos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u540c\u65f6\u5c06 JPEG \u626b\u63cf\u4ef6\u6dfb\u52a0\u5230\u201c\u7167\u7247\u201d"
+          }
+        }
+      }
+    },
+    "Cancel": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Annuler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u53d6\u6d88"
+          }
+        }
+      }
+    },
+    "Check now": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobar ahora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "V\u00e9rifier maintenant"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7acb\u5373\u68c0\u67e5"
+          }
+        }
+      }
+    },
+    "Checking": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "V\u00e9rification"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u68c0\u67e5"
+          }
+        }
+      }
+    },
+    "Checking...": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Comprobando..."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "V\u00e9rification..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u68c0\u67e5..."
+          }
+        }
+      }
+    },
+    "Choose folder...": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elegir carpeta..."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choisir un dossier..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u9009\u62e9\u6587\u4ef6\u5939..."
+          }
+        }
+      }
+    },
+    "Clear": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6e05\u9664"
+          }
+        }
+      }
+    },
+    "Clear list": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Borrar la lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer la liste"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6e05\u9664\u5217\u8868"
+          }
+        }
+      }
+    },
+    "Clear the list of recent scans?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00bfBorrar la lista de escaneos recientes?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Effacer la liste des num\u00e9risations r\u00e9centes ?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6e05\u9664\u6700\u8fd1\u626b\u63cf\u5217\u8868\uff1f"
+          }
+        }
+      }
+    },
+    "Close PDF after %lld s idle": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar el PDF tras %lld s de inactividad"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fermer le PDF apr\u00e8s %lld s d'inactivit\u00e9"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7a7a\u95f2 %lld \u79d2\u540e\u5173\u95ed PDF"
+          }
+        }
+      }
+    },
+    "Color": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couleur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5f69\u8272"
+          }
+        }
+      }
+    },
+    "Connecting": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connexion"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u8fde\u63a5"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u62f7\u8d1d"
+          }
+        }
+      }
+    },
+    "Could not add the scan to Photos: %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido a\u00f1adir el escaneo a Fotos: %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible d'ajouter la num\u00e9risation \u00e0 Photos : %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u65e0\u6cd5\u5c06\u626b\u63cf\u4ef6\u6dfb\u52a0\u5230\u201c\u7167\u7247\u201d\uff1a%@"
+          }
+        }
+      }
+    },
+    "Could not delete %@ (%@). Delete it in the Files app instead.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido eliminar %1$@ (%2$@). Elim\u00ednalo desde la app Archivos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de supprimer %1$@ (%2$@). Supprimez-le plut\u00f4t dans l'app Fichiers."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u65e0\u6cd5\u5220\u9664 %1$@\uff08%2$@\uff09\u3002\u8bf7\u6539\u4e3a\u5728\u201c\u6587\u4ef6\u201d App \u4e2d\u5220\u9664\u3002"
+          }
+        }
+      }
+    },
+    "Could not resolve %@: %@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha podido obtener la direcci\u00f3n de %1$@: %2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impossible de trouver l'adresse de %1$@ : %2$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u65e0\u6cd5\u89e3\u6790 %1$@ \u7684\u5730\u5740\uff1a%2$@"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5220\u9664"
+          }
+        }
+      }
+    },
+    "Delete file": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar archivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer le fichier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5220\u9664\u6587\u4ef6"
+          }
+        }
+      }
+    },
+    "Delete this scan?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00bfEliminar este escaneo?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Supprimer cette num\u00e9risation ?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5220\u9664\u6b64\u626b\u63cf\u4ef6\uff1f"
+          }
+        }
+      }
+    },
+    "Details": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detalles"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "D\u00e9tails"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u8be6\u7ec6\u4fe1\u606f"
+          }
+        }
+      }
+    },
+    "Error": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erreur"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u9519\u8bef"
+          }
+        }
+      }
+    },
+    "File name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de archivo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom de fichier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6587\u4ef6\u540d"
+          }
+        }
+      }
+    },
+    "Folder": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carpeta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dossier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6587\u4ef6\u5939"
+          }
+        }
+      }
+    },
+    "Format": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Formato"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u683c\u5f0f"
+          }
+        }
+      }
+    },
+    "Found on the network": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encontradas en la red"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trouv\u00e9es sur le r\u00e9seau"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u7f51\u7edc\u4e0a\u627e\u5230"
+          }
+        }
+      }
+    },
+    "Grayscale": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escala de grises"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niveaux de gris"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7070\u5ea6"
+          }
+        }
+      }
+    },
+    "Host name (.local) or IP address": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de host (.local) o direcci\u00f3n IP"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom d'h\u00f4te (.local) ou adresse IP"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4e3b\u673a\u540d\uff08.local\uff09\u6216 IP \u5730\u5740"
+          }
+        }
+      }
+    },
+    "If nothing shows up, allow Local Network access for Scan to Me in Settings > Privacy & Security.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si no aparece nada, permite el acceso a la red local para Scan to Me en Ajustes > Privacidad y seguridad."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Si rien n'appara\u00eet, autorisez l'acc\u00e8s au r\u00e9seau local pour Scan to Me dans R\u00e9glages > Confidentialit\u00e9 et s\u00e9curit\u00e9."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5982\u679c\u672a\u663e\u793a\u4efb\u4f55\u5185\u5bb9\uff0c\u8bf7\u5728\u201c\u8bbe\u7f6e\u201d>\u201c\u9690\u79c1\u4e0e\u5b89\u5168\u6027\u201d\u4e2d\u5141\u8bb8 Scan to Me \u8bbf\u95ee\u672c\u5730\u7f51\u7edc\u3002"
+          }
+        }
+      }
+    },
+    "JPEG": {
+      "shouldTranslate": false
+    },
+    "Letter": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carta"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lettre US"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7f8e\u5f0f\u4fe1\u7eb8"
+          }
+        }
+      }
+    },
+    "Listen": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escucha"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00c9coute"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u76d1\u542c"
+          }
+        }
+      }
+    },
+    "Log": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Registro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Journal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u65e5\u5fd7"
+          }
+        }
+      }
+    },
+    "Looking for scanners...": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Buscando esc\u00e1neres..."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recherche de scanners..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u67e5\u627e\u626b\u63cf\u4eea..."
+          }
+        }
+      }
+    },
+    "Manual": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manual"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Manuel"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u624b\u52a8"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u540d\u79f0"
+          }
+        }
+      }
+    },
+    "Name shown on the printer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre mostrado en la impresora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom affich\u00e9 sur l'imprimante"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u6253\u5370\u673a\u4e0a\u663e\u793a\u7684\u540d\u79f0"
+          }
+        }
+      }
+    },
+    "Network name": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre de red"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nom r\u00e9seau"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7f51\u7edc\u540d\u79f0"
+          }
+        }
+      }
+    },
+    "No printers yet. Tap + to find one on your network.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00fan no hay impresoras. Toca + para buscar una en tu red."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune imprimante. Touchez + pour en trouver une sur votre r\u00e9seau."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5c1a\u65e0\u6253\u5370\u673a\u3002\u8f7b\u70b9 + \u4ee5\u5728\u7f51\u7edc\u4e0a\u67e5\u627e\u3002"
+          }
+        }
+      }
+    },
+    "No scans yet.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A\u00fan no hay escaneos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aucune num\u00e9risation."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5c1a\u65e0\u626b\u63cf\u4ef6\u3002"
+          }
+        }
+      }
+    },
+    "Not on this network": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No est\u00e1 en esta red"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pas sur ce r\u00e9seau"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4e0d\u5728\u6b64\u7f51\u7edc\u4e0a"
+          }
+        }
+      }
+    },
+    "On My iPhone / Scan to Me": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En mi iPhone / Scan to Me"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur mon iPhone / Scan to Me"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6211\u7684 iPhone / Scan to Me"
+          }
+        }
+      }
+    },
+    "On the printer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En la impresora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sur l'imprimante"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u6253\u5370\u673a\u4e0a"
+          }
+        }
+      }
+    },
+    "Online": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En l\u00ednea"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "En ligne"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u7ebf"
+          }
+        }
+      }
+    },
+    "PDF": {
+      "shouldTranslate": false
+    },
+    "Paper": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Papel"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Papier"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7eb8\u5f20"
+          }
+        }
+      }
+    },
+    "Pattern": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Patr\u00f3n"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mod\u00e8le"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u547d\u540d\u683c\u5f0f"
+          }
+        }
+      }
+    },
+    "Photos access was not granted": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No se ha permitido el acceso a Fotos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'acc\u00e8s \u00e0 Photos n'a pas \u00e9t\u00e9 autoris\u00e9"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u672a\u83b7\u5f97\u201c\u7167\u7247\u201d\u8bbf\u95ee\u6743\u9650"
+          }
+        }
+      }
+    },
+    "Port": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Puerto"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Port"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7aef\u53e3"
+          }
+        }
+      }
+    },
+    "Preview: %@.%@": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa: %1$@.%2$@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aper\u00e7u : %1$@.%2$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u9884\u89c8\uff1a%1$@.%2$@"
+          }
+        }
+      }
+    },
+    "Printers": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Impresoras"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Imprimantes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6253\u5370\u673a"
+          }
+        }
+      }
+    },
+    "Ready": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pr\u00eate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5c31\u7eea"
+          }
+        }
+      }
+    },
+    "Ready (feeder)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lista (alimentador)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pr\u00eate (chargeur)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5c31\u7eea\uff08\u8fdb\u7eb8\u5668\uff09"
+          }
+        }
+      }
+    },
+    "Recent scans": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escaneos recientes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Num\u00e9risations r\u00e9centes"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6700\u8fd1\u626b\u63cf"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u79fb\u9664"
+          }
+        }
+      }
+    },
+    "Remove printer": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quitar impresora"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer l'imprimante"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u79fb\u9664\u6253\u5370\u673a"
+          }
+        }
+      }
+    },
+    "Remove this printer?": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00bfQuitar esta impresora?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retirer cette imprimante ?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u79fb\u9664\u6b64\u6253\u5370\u673a\uff1f"
+          }
+        }
+      }
+    },
+    "Resolution": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resoluci\u00f3n"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R\u00e9solution"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5206\u8fa8\u7387"
+          }
+        }
+      }
+    },
+    "Save to": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar en"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enregistrer dans"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5b58\u50a8\u5230"
+          }
+        }
+      }
+    },
+    "Scan": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escaneo"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Num\u00e9risation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u626b\u63cf"
+          }
+        }
+      }
+    },
+    "Scan to Me": {
+      "shouldTranslate": false
+    },
+    "Scan to Me appears on the printer only while the app is open and listening. iOS suspends network access in the background.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me solo aparece en la impresora mientras la app est\u00e1 abierta y a la escucha. iOS suspende el acceso a la red en segundo plano."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me n'appara\u00eet sur l'imprimante que lorsque l'app est ouverte et \u00e0 l'\u00e9coute. iOS suspend l'acc\u00e8s r\u00e9seau en arri\u00e8re-plan."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4ec5\u5f53 App \u5904\u4e8e\u6253\u5f00\u548c\u76d1\u542c\u72b6\u6001\u65f6\uff0cScan to Me \u624d\u4f1a\u51fa\u73b0\u5728\u6253\u5370\u673a\u4e0a\u3002iOS \u4f1a\u5728\u540e\u53f0\u6682\u505c\u7f51\u7edc\u8bbf\u95ee\u3002"
+          }
+        }
+      }
+    },
+    "Scan to Me only appears on the printer while this app is open and listening.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me solo aparece en la impresora mientras esta app est\u00e1 abierta y a la escucha."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me n'appara\u00eet sur l'imprimante que lorsque cette app est ouverte et \u00e0 l'\u00e9coute."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4ec5\u5f53\u6b64 App \u5904\u4e8e\u6253\u5f00\u548c\u76d1\u542c\u72b6\u6001\u65f6\uff0cScan to Me \u624d\u4f1a\u51fa\u73b0\u5728\u6253\u5370\u673a\u4e0a\u3002"
+          }
+        }
+      }
+    },
+    "Scan to Me stops listening for it. You can add it again later.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me dejar\u00e1 de escucharla. Puedes volver a a\u00f1adirla m\u00e1s tarde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me cessera de l'\u00e9couter. Vous pourrez l'ajouter de nouveau plus tard."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Scan to Me \u5c06\u505c\u6b62\u76d1\u542c\u6b64\u6253\u5370\u673a\u3002\u4f60\u53ef\u4ee5\u7a0d\u540e\u518d\u6b21\u6dfb\u52a0\u3002"
+          }
+        }
+      }
+    },
+    "Scanning": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escaneando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Num\u00e9risation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u626b\u63cf"
+          }
+        }
+      }
+    },
+    "Scanning (%lld)": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Escaneando (%lld)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Num\u00e9risation (%lld)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b63\u5728\u626b\u63cf\uff08%lld\uff09"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "R\u00e9glages"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u8bbe\u7f6e"
+          }
+        }
+      }
+    },
+    "Shown in this app only, e.g. Home or Office.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Solo se muestra en esta app, p. ej., Casa u Oficina."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Affich\u00e9 dans cette app uniquement, par ex. Maison ou Bureau."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4ec5\u5728\u6b64 App \u4e2d\u663e\u793a\uff0c\u4f8b\u5982\u201c\u5bb6\u201d\u6216\u201c\u529e\u516c\u5ba4\u201d\u3002"
+          }
+        }
+      }
+    },
+    "Start listening": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Empezar a escuchar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Commencer l'\u00e9coute"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5f00\u59cb\u76d1\u542c"
+          }
+        }
+      }
+    },
+    "Status": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u00c9tat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u72b6\u6001"
+          }
+        }
+      }
+    },
+    "Stop listening": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dejar de escuchar"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arr\u00eater l'\u00e9coute"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u505c\u6b62\u76d1\u542c"
+          }
+        }
+      }
+    },
+    "Stopped": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detenida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arr\u00eat\u00e9e"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5df2\u505c\u6b62"
+          }
+        }
+      }
+    },
+    "Swipe left on a scan: Remove hides it here and keeps the file; Delete also deletes the file.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desliza un escaneo hacia la izquierda: Quitar lo oculta aqu\u00ed y conserva el archivo; Eliminar tambi\u00e9n borra el archivo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Balayez une num\u00e9risation vers la gauche : Retirer la masque ici et conserve le fichier ; Supprimer efface aussi le fichier."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u626b\u63cf\u4ef6\u4e0a\u5411\u5de6\u8f7b\u626b\uff1a\u201c\u79fb\u9664\u201d\u4ec5\u5728\u6b64\u5904\u9690\u85cf\u5e76\u4fdd\u7559\u6587\u4ef6\uff1b\u201c\u5220\u9664\u201d\u8fd8\u4f1a\u5220\u9664\u6587\u4ef6\u3002"
+          }
+        }
+      }
+    },
+    "The PDF idle time must be at least 10 seconds.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El tiempo de inactividad del PDF debe ser de al menos 10 segundos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le d\u00e9lai d'inactivit\u00e9 du PDF doit \u00eatre d'au moins 10 secondes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF \u7a7a\u95f2\u65f6\u95f4\u81f3\u5c11\u4e3a 10 \u79d2\u3002"
+          }
+        }
+      }
+    },
+    "The app folder is visible in Files under On My iPhone > Scan to Me. For iCloud Drive, Dropbox, Google Drive or OneDrive, tap Choose folder, then Browse. A service missing there must be switched on in the Files app: Browse > ... > Edit.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La carpeta de la app est\u00e1 visible en Archivos, en En mi iPhone > Scan to Me. Para iCloud Drive, Dropbox, Google Drive u OneDrive, toca Elegir carpeta y despu\u00e9s Explorar. Si falta un servicio, act\u00edvalo en la app Archivos: Explorar > ... > Editar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier de l'app est visible dans Fichiers sous Sur mon iPhone > Scan to Me. Pour iCloud Drive, Dropbox, Google Drive ou OneDrive, touchez Choisir un dossier, puis Parcourir. Un service absent de la liste doit \u00eatre activ\u00e9 dans l'app Fichiers : Parcourir > ... > Modifier."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App \u6587\u4ef6\u5939\u53ef\u5728\u201c\u6587\u4ef6\u201d\u4e2d\u7684\u201c\u6211\u7684 iPhone\u201d>\u201cScan to Me\u201d\u627e\u5230\u3002\u82e5\u8981\u4f7f\u7528 iCloud \u4e91\u76d8\u3001Dropbox\u3001Google Drive \u6216 OneDrive\uff0c\u8bf7\u8f7b\u70b9\u201c\u9009\u62e9\u6587\u4ef6\u5939\u201d\uff0c\u7136\u540e\u8f7b\u70b9\u201c\u6d4f\u89c8\u201d\u3002\u5982\u679c\u5176\u4e2d\u7f3a\u5c11\u67d0\u4e2a\u670d\u52a1\uff0c\u8bf7\u5728\u201c\u6587\u4ef6\u201d App \u4e2d\u5f00\u542f\uff1a\u201c\u6d4f\u89c8\u201d>\u201c...\u201d>\u201c\u7f16\u8f91\u201d\u3002"
+          }
+        }
+      }
+    },
+    "The file name pattern must not be empty.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El patr\u00f3n de nombre de archivo no puede estar vac\u00edo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le mod\u00e8le de nom de fichier ne doit pas \u00eatre vide."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6587\u4ef6\u547d\u540d\u683c\u5f0f\u4e0d\u80fd\u4e3a\u7a7a\u3002"
+          }
+        }
+      }
+    },
+    "The name shown on the printer must not be empty.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El nombre mostrado en la impresora no puede estar vac\u00edo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le nom affich\u00e9 sur l'imprimante ne doit pas \u00eatre vide."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5728\u6253\u5370\u673a\u4e0a\u663e\u793a\u7684\u540d\u79f0\u4e0d\u80fd\u4e3a\u7a7a\u3002"
+          }
+        }
+      }
+    },
+    "The output folder is not available. Choose another one in Settings.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La carpeta de destino no est\u00e1 disponible. Elige otra en Ajustes."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Le dossier de destination n'est pas disponible. Choisissez-en un autre dans R\u00e9glages."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5b58\u50a8\u6587\u4ef6\u5939\u4e0d\u53ef\u7528\u3002\u8bf7\u5728\u201c\u8bbe\u7f6e\u201d\u4e2d\u9009\u62e9\u5176\u4ed6\u6587\u4ef6\u5939\u3002"
+          }
+        }
+      }
+    },
+    "The resolution must be between 75 and 1200 dpi (not %lld).": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La resoluci\u00f3n debe estar entre 75 y 1200 ppp (no %lld)."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La r\u00e9solution doit \u00eatre comprise entre 75 et 1200 ppp (et non %lld)."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5206\u8fa8\u7387\u5fc5\u987b\u4ecb\u4e8e 75 \u81f3 1200 dpi \u4e4b\u95f4\uff08\u5f53\u524d\u4e3a %lld\uff09\u3002"
+          }
+        }
+      }
+    },
+    "The scanned files stay in their folder.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Los archivos escaneados se quedan en su carpeta."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Les fichiers num\u00e9ris\u00e9s restent dans leur dossier."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u626b\u63cf\u6587\u4ef6\u5c06\u4fdd\u7559\u5728\u5176\u6587\u4ef6\u5939\u4e2d\u3002"
+          }
+        }
+      }
+    },
+    "The screen stays on while listening. Leave Scan to Me open, then on the printer choose Scan > Computer > \"%@\".": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "La pantalla permanece encendida mientras escucha. Deja Scan to Me abierta y, en la impresora, elige Escanear > Equipo > \u00ab%@\u00bb."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "L'\u00e9cran reste allum\u00e9 pendant l'\u00e9coute. Laissez Scan to Me ouvert, puis sur l'imprimante choisissez Num\u00e9riser > Ordinateur > \u00ab %@ \u00bb."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u76d1\u542c\u671f\u95f4\u5c4f\u5e55\u5c06\u4fdd\u6301\u4eae\u8d77\u3002\u8bf7\u4fdd\u6301 Scan to Me \u6253\u5f00\uff0c\u7136\u540e\u5728\u6253\u5370\u673a\u4e0a\u9009\u62e9\u201c\u626b\u63cf\u201d>\u201c\u8ba1\u7b97\u673a\u201d>\u201c%@\u201d\u3002"
+          }
+        }
+      }
+    },
+    "This printer is already in your list as \"%@\".": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Esta impresora ya est\u00e1 en tu lista como \u00ab%@\u00bb."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cette imprimante figure d\u00e9j\u00e0 dans votre liste sous le nom \u00ab %@ \u00bb."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u6b64\u6253\u5370\u673a\u5df2\u5728\u5217\u8868\u4e2d\uff0c\u540d\u79f0\u4e3a\u201c%@\u201d\u3002"
+          }
+        }
+      }
+    },
+    "Tokens: {date} {time} {page}. A shortcut chosen on the printer (Save as Document / Save as Photo) overrides the format.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Variables: {date} {time} {page}. Un acceso directo elegido en la impresora (Guardar como documento / como foto) sustituye al formato."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jetons : {date} {time} {page}. Un raccourci choisi sur l'imprimante (Enregistrer comme document / comme photo) remplace le format."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u53ef\u7528\u53d8\u91cf\uff1a{date} {time} {page}\u3002\u5728\u6253\u5370\u673a\u4e0a\u9009\u62e9\u7684\u5feb\u6377\u65b9\u5f0f\uff08\u5b58\u50a8\u4e3a\u6587\u6863/\u5b58\u50a8\u4e3a\u7167\u7247\uff09\u4f1a\u8986\u76d6\u6b64\u683c\u5f0f\u3002"
+          }
+        }
+      }
+    },
+    "Trim empty margins": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recortar m\u00e1rgenes vac\u00edos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rogner les marges vides"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u88c1\u526a\u7a7a\u767d\u8fb9\u8ddd"
+          }
+        }
+      }
+    },
+    "Trim: a smaller original (receipt, card, photo, half sheet) placed in the corner of the glass is saved at its own size instead of a full page. Full-width pages and the document feeder are never trimmed.": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recorte: un original m\u00e1s peque\u00f1o (tique, tarjeta, foto, media hoja) colocado en la esquina del cristal se guarda a su tama\u00f1o real en lugar de una p\u00e1gina completa. Las p\u00e1ginas de ancho completo y el alimentador de documentos nunca se recortan."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rognage : un original plus petit (ticket, carte, photo, demi-page) pos\u00e9 dans le coin de la vitre est enregistr\u00e9 \u00e0 sa taille r\u00e9elle au lieu d'une page enti\u00e8re. Les pages pleine largeur et le chargeur de documents ne sont jamais rogn\u00e9s."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u88c1\u526a\uff1a\u653e\u5728\u626b\u63cf\u73bb\u7483\u89d2\u843d\u7684\u8f83\u5c0f\u539f\u4ef6\uff08\u5c0f\u7968\u3001\u5361\u7247\u3001\u7167\u7247\u3001\u534a\u9875\u7eb8\uff09\u5c06\u6309\u5176\u5b9e\u9645\u5c3a\u5bf8\u4fdd\u5b58\uff0c\u800c\u975e\u6574\u9875\u3002\u5168\u5bbd\u9875\u9762\u548c\u81ea\u52a8\u8fdb\u7eb8\u5668\u626b\u63cf\u7684\u9875\u9762\u4e0d\u4f1a\u88ab\u88c1\u526a\u3002"
+          }
+        }
+      }
+    },
+    "Use the app folder": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usar la carpeta de la app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Utiliser le dossier de l'app"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u4f7f\u7528 App \u6587\u4ef6\u5939"
+          }
+        }
+      }
+    },
+    "Version": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versi\u00f3n"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u7248\u672c"
+          }
+        }
+      }
+    },
+    "access to the chosen folder was denied": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "se ha denegado el acceso a la carpeta elegida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "l'acc\u00e8s au dossier choisi a \u00e9t\u00e9 refus\u00e9"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u8bbf\u95ee\u6240\u9009\u6587\u4ef6\u5939\u88ab\u62d2\u7edd"
+          }
+        }
+      }
+    },
+    "may not be supported yet": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "puede que a\u00fan no sea compatible"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "peut-\u00eatre pas encore prise en charge"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u53ef\u80fd\u5c1a\u4e0d\u652f\u6301"
+          }
+        }
+      }
+    },
+    "moved": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "movido"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "d\u00e9plac\u00e9"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u5df2\u79fb\u52a8"
+          }
+        }
+      }
+    },
+    "the app's Documents folder could not be found": {
+      "localizations": {
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "no se encuentra la carpeta Documentos de la app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "le dossier Documents de l'app est introuvable"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "\u627e\u4e0d\u5230 App \u7684\u201c\u6587\u7a3f\u201d\u6587\u4ef6\u5939"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

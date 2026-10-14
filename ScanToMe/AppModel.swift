@@ -67,13 +67,13 @@ final class AppModel {
             resolveOutputFolder()
         }
         guard let folder = outputFolder else {
-            lastError = "The output folder is not available. Choose another one in Settings."
+            lastError = String(localized: "The output folder is not available. Choose another one in Settings.")
             return
         }
         do {
             try preferences.validate()
         } catch {
-            lastError = "\(error)"
+            lastError = Self.message(for: error)
             return
         }
         Self.log.debug("app: start listening printers=\(self.printers.count) folder=\(folder.url.path)")
@@ -120,7 +120,7 @@ final class AppModel {
             try preferences.validate()
         } catch {
             Self.log.debug("app: restart skipped, invalid settings: \(error)")
-            lastError = "\(error). Still using the previous settings."
+            lastError = String(localized: "\(Self.message(for: error)) Still using the previous settings.")
             return
         }
         Self.log.debug("app: restarting sessions for new settings")
@@ -186,7 +186,7 @@ final class AppModel {
             log.append(LogEntry(level: .info, printer: scan.printer, message: "added \(scan.url.lastPathComponent) to Photos"))
         } catch {
             Self.log.error("app: photos save failed: \(error)")
-            lastError = "Could not add the scan to Photos: \(error.localizedDescription)"
+            lastError = String(localized: "Could not add the scan to Photos: \(error.localizedDescription)")
             log.append(LogEntry(level: .error, printer: scan.printer, message: "Photos: \(error.localizedDescription)"))
         }
     }
@@ -264,6 +264,17 @@ final class AppModel {
         }
     }
 
+    /// Settings errors in the user's language (ScanKit's descriptions are English).
+    private static func message(for error: any Error) -> String {
+        guard let e = error as? ScanPreferences.ValidationError else { return "\(error)" }
+        switch e {
+        case .emptyName: return String(localized: "The name shown on the printer must not be empty.")
+        case .emptyPattern: return String(localized: "The file name pattern must not be empty.")
+        case let .resolutionOutOfRange(r): return String(localized: "The resolution must be between 75 and 1200 dpi (not \(r)).")
+        case .pageTimeoutTooShort: return String(localized: "The PDF idle time must be at least 10 seconds.")
+        }
+    }
+
     // MARK: - Recent scans
 
     /// Hides one scan from the list; its file is left where it was saved.
@@ -290,7 +301,7 @@ final class AppModel {
         }.value
         if let result {
             Self.log.error("app: delete failed for \(url.lastPathComponent): \(result)")
-            lastError = "Could not delete \(url.lastPathComponent) (\(result)). Delete it in the Files app instead."
+            lastError = String(localized: "Could not delete \(url.lastPathComponent) (\(result)). Delete it in the Files app instead.")
             return
         }
         log.append(LogEntry(level: .info, printer: scan.printer, message: "deleted \(url.lastPathComponent)"))
@@ -414,8 +425,7 @@ final class AppModel {
         } catch {
             Self.log.error("app: output folder unavailable: \(error)")
             if !outputLocation.isDocuments {
-                folderProblem = "\(outputLocation.displayName) can't be opened right now (\(error.localizedDescription)). "
-                    + "Scans are saved in the app folder until it is available again."
+                folderProblem = String(localized: "\(outputLocation.displayName) can't be opened right now (\(error.localizedDescription)). Scans are saved in the app folder until it is available again.")
             }
             if let docs = try? OutputLocation.documents.resolve() {
                 outputFolder = (docs.url, false)

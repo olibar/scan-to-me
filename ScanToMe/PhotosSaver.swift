@@ -8,7 +8,7 @@ enum PhotosSaver {
 
     enum PhotosError: Error, LocalizedError {
         case notAuthorized
-        var errorDescription: String? { "Photos access was not granted" }
+        var errorDescription: String? { String(localized: "Photos access was not granted") }
     }
 
     static func save(jpeg data: Data) async throws {

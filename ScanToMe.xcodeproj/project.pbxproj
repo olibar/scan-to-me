@@ -21,6 +21,8 @@
 		BAE788B00A8D128317706A6E /* OutputLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA299F2AFFDCC48E6A884E66 /* OutputLocation.swift */; };
 		C5D59AC578AD55E4D9CB0AA6 /* PhotosSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23ABA75ECA0D4ECE148060C0 /* PhotosSaver.swift */; };
 		DBE368B10EE15FE92D85778E /* ListeningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9951D398DD2FCB3763FDF8A /* ListeningView.swift */; };
+		E357A0794BFC8E5E0B4D00E4 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 899DE8A89E3433D032D15043 /* Localizable.xcstrings */; };
+		F1264156FC1E98A5BE59C5E7 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 2187994712E0B69907EF6829 /* InfoPlist.xcstrings */; };
 		F144DAF41EE9F4A2C3C0AA15 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41A33681B5C88F4E90BF0F8 /* AppModel.swift */; };
 		F25D1607C9F9E34970C696B3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 02B1C84D8C63FD26FF701165 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
@@ -29,12 +31,14 @@
 		00630465E4EF64B4300D63F0 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		02B1C84D8C63FD26FF701165 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		126BF2D5B98C96FD8F8584AD /* ScanToMe.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = ScanToMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2187994712E0B69907EF6829 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		23ABA75ECA0D4ECE148060C0 /* PhotosSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosSaver.swift; sourceTree = "<group>"; };
 		4CF353BFB9CEFDA3D5A74F9B /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		5CE412FAFF419908116D1B7F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		63391194A3A84C3E4D73F0CA /* ScanKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ScanKit; path = Packages/ScanKit; sourceTree = SOURCE_ROOT; };
 		67314BB7D1E86E7ACBE95EB9 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		7083C123F5D4236C2C9617E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		899DE8A89E3433D032D15043 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		93165AECEE8256B68ED3B98F /* OutputFolderPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutputFolderPicker.swift; sourceTree = "<group>"; };
 		9F4CFC9F516E33E694446CFA /* ScanToMeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanToMeApp.swift; sourceTree = "<group>"; };
 		B41A33681B5C88F4E90BF0F8 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 				7083C123F5D4236C2C9617E9 /* Assets.xcassets */,
 				C3FBBD6BE0F9D0FB39B9CD55 /* BackgroundTaskGuard.swift */,
 				5CE412FAFF419908116D1B7F /* Info.plist */,
+				2187994712E0B69907EF6829 /* InfoPlist.xcstrings */,
+				899DE8A89E3433D032D15043 /* Localizable.xcstrings */,
 				93165AECEE8256B68ED3B98F /* OutputFolderPicker.swift */,
 				EA299F2AFFDCC48E6A884E66 /* OutputLocation.swift */,
 				00630465E4EF64B4300D63F0 /* Persistence.swift */,
@@ -158,6 +164,9 @@
 			knownRegions = (
 				Base,
 				en,
+				es,
+				fr,
+				"zh-Hans",
 			);
 			mainGroup = 178483E6C20DF6072852ADB4;
 			minimizedProjectReferenceProxies = 1;
@@ -180,6 +189,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6D275792B6B544C489C51B20 /* Assets.xcassets in Resources */,
+				F1264156FC1E98A5BE59C5E7 /* InfoPlist.xcstrings in Resources */,
+				E357A0794BFC8E5E0B4D00E4 /* Localizable.xcstrings in Resources */,
 				F25D1607C9F9E34970C696B3 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

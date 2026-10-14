@@ -12,15 +12,15 @@ enum OutputLocation: Codable, Equatable, Sendable {
 
         var errorDescription: String? {
             switch self {
-            case .accessDenied: return "access to the chosen folder was denied"
-            case .noDocuments: return "the app's Documents folder could not be found"
+            case .accessDenied: return String(localized: "access to the chosen folder was denied")
+            case .noDocuments: return String(localized: "the app's Documents folder could not be found")
             }
         }
     }
 
     var displayName: String {
         switch self {
-        case .documents: return "On My iPhone / Scan to Me"
+        case .documents: return String(localized: "On My iPhone / Scan to Me")
         case let .bookmark(_, name): return name
         }
     }

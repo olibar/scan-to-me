@@ -30,8 +30,14 @@ struct AddPrinterView: View {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(scanner.serviceName)
-                                    Text(scanner.isHP ? (scanner.model ?? "") : "may not be supported yet")
-                                        .font(.caption).foregroundStyle(.secondary)
+                                    Group {
+                                        if scanner.isHP {
+                                            Text(verbatim: scanner.model ?? "")
+                                        } else {
+                                            Text("may not be supported yet")
+                                        }
+                                    }
+                                    .font(.caption).foregroundStyle(.secondary)
                                 }
                                 Spacer()
                                 if resolving == scanner.serviceName { ProgressView() }
@@ -48,7 +54,7 @@ struct AddPrinterView: View {
                     Text("If nothing shows up, allow Local Network access for Scan to Me in Settings > Privacy & Security.")
                 }
                 Section("Manual") {
-                    TextField("Host (HPxxxxxx.local or IP)", text: $manualHost)
+                    TextField("Host name (.local) or IP address", text: $manualHost)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
                         .keyboardType(.URL)
@@ -85,13 +91,13 @@ struct AddPrinterView: View {
                 let record = PrinterRecord(displayName: scanner.serviceName, serviceName: scanner.serviceName,
                                            uuid: scanner.uuid, host: r.host, port: r.port)
                 if let existing = model.addPrinter(record, present: true) {
-                    self.error = "This printer is already in your list as \"\(existing.displayName)\"."
+                    self.error = String(localized: "This printer is already in your list as \"\(existing.displayName)\".")
                     return
                 }
                 dismiss()
             } catch {
                 Self.log.error("add-printer: resolve failed: \(error)")
-                self.error = "Could not resolve \(scanner.serviceName): \(error)"
+                self.error = String(localized: "Could not resolve \(scanner.serviceName): \(error.localizedDescription)")
             }
         }
     }
@@ -100,7 +106,7 @@ struct AddPrinterView: View {
         let host = manualHost.trimmingCharacters(in: .whitespaces)
         guard let port = Int(manualPort) else { return }
         if let existing = model.addPrinter(PrinterRecord(displayName: host, host: host, port: port)) {
-            error = "\(host):\(port) is already in your list as \"\(existing.displayName)\"."
+            error = String(localized: "\(host):\(port) is already in your list as \"\(existing.displayName)\".")
             return
         }
         dismiss()
