@@ -7,6 +7,7 @@ struct ListeningView: View {
     @Environment(AppModel.self) private var model
     @State private var previewURL: URL?
     @State private var confirmingClear = false
+    @State private var pendingDelete: SavedScan?
 
     var body: some View {
         NavigationStack {
@@ -89,8 +90,15 @@ struct ListeningView: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture { if exists { previewURL = scan.url } }
-                .swipeActions {
-                    Button("Remove", role: .destructive) { model.removeRecentScan(scan.id) }
+                // A full swipe reaches Delete (outermost), which always asks first;
+                // a partial swipe also offers Remove, which keeps the file.
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    if exists {
+                        Button { pendingDelete = scan } label: { Label("Delete", systemImage: "trash") }
+                            .tint(.red)
+                    }
+                    Button { model.removeRecentScan(scan.id) } label: { Label("Remove", systemImage: "eye.slash") }
+                        .tint(.gray)
                 }
             }
         } header: {
@@ -105,13 +113,22 @@ struct ListeningView: View {
             }
         } footer: {
             if !model.recentScans.isEmpty {
-                Text("Swipe left to remove one. Removing only hides it here; the file stays in its folder.")
+                Text("Swipe left on a scan: Remove hides it here and keeps the file; Delete also deletes the file.")
             }
         }
         .confirmationDialog("Clear the list of recent scans?", isPresented: $confirmingClear, titleVisibility: .visible) {
             Button("Clear list", role: .destructive) { model.clearRecentScans() }
         } message: {
             Text("The scanned files stay in their folder.")
+        }
+        .confirmationDialog("Delete this scan?", isPresented: Binding(get: { pendingDelete != nil },
+                                                                      set: { if !$0 { pendingDelete = nil } }),
+                            titleVisibility: .visible, presenting: pendingDelete) { scan in
+            Button("Delete file", role: .destructive) {
+                Task { await model.deleteScan(scan) }
+            }
+        } message: { scan in
+            Text("\(scan.url.lastPathComponent) will be deleted from its folder. This cannot be undone.")
         }
     }
 }
