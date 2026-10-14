@@ -26,6 +26,7 @@ the protocol logic was ported, the projects share no code.
   or a folder you pick, including iCloud Drive and other providers. JPEG scans
   can also go to Photos.
 * Follows the printer when its IP changes, re-registers after printer reboots.
+* In English, French, Spanish and Simplified Chinese.
 * Several sites: printers are told apart by their unique network identity, so
   the same model at home and at the office (even on the same IP address) are
   two entries. Each shows whether it is on the current network, and only the

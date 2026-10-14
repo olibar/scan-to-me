@@ -51,7 +51,15 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
 - Every network call has an explicit per-request timeout
   (`URLRequest.timeoutInterval`); the event long-poll is `wait + 30 s`.
 - Errors carry context (`LEDMError.status(method, path, status, body)`).
-- ASCII only in code, comments, docs and commit messages.
+- ASCII only in code, comments, docs and commit messages. Exception:
+  translated App Store texts in `appstore/metadata.<lang>.md`.
+- Localized in English, French, Spanish and Simplified Chinese
+  (`ScanToMe/Localizable.xcstrings`, `ScanToMe/InfoPlist.xcstrings`, stored
+  with \u escapes so the files stay ASCII). Every new user-facing string
+  needs fr, es and zh-Hans entries in the same commit: view literals are
+  picked up automatically, strings built in code must use
+  `String(localized:)`, and counts use plural variations, never a
+  hand-made "s". The activity log stays English.
 - New settings: update `ScanPreferences`, its `validate()`, the SettingsView
   form and the README table in the same commit.
 - iOS runs the listener in the foreground only. Do not add background modes

@@ -77,7 +77,7 @@ struct ListeningView: View {
                     Image(systemName: scan.format == .pdf ? "doc.richtext" : "photo")
                     VStack(alignment: .leading) {
                         Text(scan.url.lastPathComponent).lineLimit(1)
-                        Text("\(scan.date.formatted(date: .abbreviated, time: .shortened)) - \(scan.pages) page\(scan.pages == 1 ? "" : "s") - \(scan.printer)")
+                        Text("\(scan.date.formatted(date: .abbreviated, time: .shortened)) - \(scan.pages) pages - \(scan.printer)")
                             .font(.caption).foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -145,7 +145,7 @@ struct StatusBadge: View {
         case let .scanning(pages):
             Label(pages > 0 ? "Scanning (\(pages))" : "Scanning", systemImage: "scanner").foregroundStyle(.blue)
         case let .waitingForMorePages(pages):
-            Label("\(pages) page\(pages == 1 ? "" : "s"), more?", systemImage: "doc.on.doc").foregroundStyle(.blue)
+            Label("\(pages) pages, more?", systemImage: "doc.on.doc").foregroundStyle(.blue)
         case let .error(message):
             Label("Error", systemImage: "exclamationmark.triangle.fill").foregroundStyle(.red)
                 .help(message)
