@@ -1,0 +1,8 @@
+# GitHub Pages (Jekyll) settings for the Scan to Me website.
+# Published from the docs/ folder of the main branch.
+title: Scan to Me
+description: Receive scans from your network printer straight on your iPhone or iPad.
+theme: minima
+header_pages:
+  - printers.md
+  - privacy.md
