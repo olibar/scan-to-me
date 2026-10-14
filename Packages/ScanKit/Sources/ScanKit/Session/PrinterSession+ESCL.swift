@@ -143,6 +143,6 @@ extension PrinterSession {
         settings.machineName = esclTruncatedName(preferences.destinationName)
         let pages = try await escl.scanPages(settings)
         try await store(pages, format: preferences.format(forShortcut: ev.shortcut),
-                        dpi: settings.base.resolution, single: useAdf)
+                        dpi: settings.base.resolution, single: useAdf, trim: preferences.trimMargins && !useAdf)
     }
 }

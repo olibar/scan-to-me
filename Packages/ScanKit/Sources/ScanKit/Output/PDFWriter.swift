@@ -1,16 +1,21 @@
 // Assembles JPEG page images into a minimal PDF without external
 // dependencies. Each JPEG is embedded as-is using DCTDecode.
+import CoreGraphics
 import Foundation
 
 public enum PDFWriter {
-    /// One scanned page: raw JPEG bytes and the DPI it was scanned at.
+    /// One scanned page: raw JPEG bytes, the DPI it was scanned at, and
+    /// optionally the part to show (pixels, top-left origin). A crop only
+    /// shrinks the page around the image; the JPEG is embedded unchanged.
     public struct Page: Sendable {
         public var jpeg: Data
         public var dpi: Int
+        public var crop: CGRect?
 
-        public init(jpeg: Data, dpi: Int) {
+        public init(jpeg: Data, dpi: Int, crop: CGRect? = nil) {
             self.jpeg = jpeg
             self.dpi = dpi
+            self.crop = crop
         }
     }
 
@@ -41,14 +46,22 @@ public enum PDFWriter {
                 throw LEDMError.parse("pdf page \(i + 1): \(error)")
             }
             let dpi = page.dpi > 0 ? page.dpi : 300
-            let wPt = Double(info.width) * 72 / Double(dpi)
-            let hPt = Double(info.height) * 72 / Double(dpi)
+            let ptPerPx = 72 / Double(dpi)
+            let wPt = Double(info.width) * ptPerPx
+            let hPt = Double(info.height) * ptPerPx
+            // Page box and image offset: the whole image, or the cropped part
+            // (PDF y grows upwards, the crop's from the top).
+            var box = (w: wPt, h: hPt, dx: 0.0, dy: 0.0)
+            if let c = page.crop, c.width > 0, c.height > 0 {
+                box = (w: c.width * ptPerPx, h: c.height * ptPerPx,
+                       dx: -c.minX * ptPerPx, dy: -(Double(info.height) - c.maxY) * ptPerPx)
+            }
             let cs = info.components == 1 ? "/DeviceGray" : (info.components == 4 ? "/DeviceCMYK" : "/DeviceRGB")
             Log.pdf.debug("pdf: page \(i + 1) \(info.width)x\(info.height) dpi=\(dpi) colorspace=\(cs)")
             let pageObj = 3 + i * 3
             let imgObj = pageObj + 1
             obj {
-                $0.append(ascii("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 \(fmt(wPt)) \(fmt(hPt))] "
+                $0.append(ascii("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 \(fmt(box.w)) \(fmt(box.h))] "
                     + "/Resources << /XObject << /Im0 \(imgObj) 0 R >> >> /Contents \(imgObj + 1) 0 R >>"))
             }
             obj {
@@ -57,7 +70,7 @@ public enum PDFWriter {
                 $0.append(page.jpeg)
                 $0.append(ascii("\nendstream"))
             }
-            let content = "q \(fmt(wPt)) 0 0 \(fmt(hPt)) 0 0 cm /Im0 Do Q"
+            let content = "q \(fmt(wPt)) 0 0 \(fmt(hPt)) \(fmt(box.dx)) \(fmt(box.dy)) cm /Im0 Do Q"
             obj { $0.append(ascii("<< /Length \(content.utf8.count) >>\nstream\n\(content)\nendstream")) }
         }
         let xref = out.count
