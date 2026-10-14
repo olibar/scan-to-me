@@ -7,7 +7,7 @@ Limits: name 30, subtitle 30, keywords 100, promotional text 170 characters.
 ## App information
 
 - Name: `Scan to Me` (fallback if taken: `Scan to Me: Printer to Phone`)
-- Subtitle: `Scans from your printer, here`
+- Subtitle: `Scan straight to your phone`
 - Bundle ID: `com.obarlier.scantome`
 - SKU: `scantome-ios`
 - Primary category: Productivity; secondary: Utilities
