@@ -29,8 +29,8 @@ the protocol logic was ported, the projects share no code.
 * Several sites: printers are told apart by their unique network identity, so
   the same model at home and at the office (even on the same IP address) are
   two entries. Each shows whether it is on the current network, and only the
-  ones present are contacted. Names come from the Location set in the
-  printer's web page, or rename them in the app.
+  ones present are contacted. A printer is named after its unique network
+  (Bonjour) name; rename it in the app, e.g. Home and Office.
 
 ## The iOS constraint
 

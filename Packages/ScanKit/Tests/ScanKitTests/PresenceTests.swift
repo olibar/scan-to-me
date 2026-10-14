@@ -10,8 +10,8 @@ struct PrinterIdentityTests {
     private let office = PrinterRecord(displayName: "Office", serviceName: "HP OfficeJet Pro 9010 series [0A1B2C]",
                                        uuid: "11111111-2222-3333-4444-555555555555", host: "192.168.1.20")
 
-    private func scanner(_ name: String, uuid: String?, note: String? = nil) -> DiscoveredScanner {
-        DiscoveredScanner(serviceName: name, model: "HP OfficeJet Pro 9010 series", mfg: "HP", note: note, uuid: uuid,
+    private func scanner(_ name: String, uuid: String?) -> DiscoveredScanner {
+        DiscoveredScanner(serviceName: name, model: "HP OfficeJet Pro 9010 series", mfg: "HP", uuid: uuid,
                           endpoint: .hostPort(host: "192.168.1.20", port: 8080))
     }
 
@@ -35,11 +35,6 @@ struct PrinterIdentityTests {
         #expect(!office.matches(scanner("HP OfficeJet Pro 9010 series [7F6462]", uuid: "c76dc8e1-c9d0-5eef-35a2-609e5b3a7ee6")))
         #expect(home.matches(scanner("hp officejet pro 9010 series [7f6462]", uuid: nil)))
         #expect(!PrinterRecord(displayName: "m", host: "192.168.1.20").matches(scanner("x", uuid: nil)))
-    }
-
-    @Test func suggestedNameUsesTheLocation() {
-        #expect(scanner("x", uuid: nil, note: "Home").suggestedName == "Home")
-        #expect(scanner("x", uuid: nil, note: " ").suggestedName == "HP OfficeJet Pro 9010 series")
     }
 
     @Test func stateSavedBeforeUUIDsStillDecodes() throws {

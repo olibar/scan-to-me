@@ -59,7 +59,7 @@ struct PrinterDetailView: View {
                 } header: {
                     Text("Name")
                 } footer: {
-                    Text("Shown in this app only, e.g. Home or Office. Setting the printer's Location in its web page names it automatically when added.")
+                    Text("Shown in this app only, e.g. Home or Office.")
                 }
                 Section("Status") {
                     PrinterStatusView(printer: printer)

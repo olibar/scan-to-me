@@ -29,8 +29,8 @@ struct AddPrinterView: View {
                         Button { add(scanner) } label: {
                             HStack {
                                 VStack(alignment: .leading) {
-                                    Text(scanner.suggestedName)
-                                    Text(scanner.isHP ? scanner.serviceName : "may not be supported yet")
+                                    Text(scanner.serviceName)
+                                    Text(scanner.isHP ? (scanner.model ?? "") : "may not be supported yet")
                                         .font(.caption).foregroundStyle(.secondary)
                                 }
                                 Spacer()
@@ -80,7 +80,9 @@ struct AddPrinterView: View {
             do {
                 let r = try await EndpointResolver.resolve(scanner.endpoint)
                 Self.log.debug("add-printer: \(scanner.serviceName) -> \(r.host):\(r.port) uuid=\(scanner.uuid ?? "-")")
-                let record = PrinterRecord(displayName: scanner.suggestedName, serviceName: scanner.serviceName,
+                // The Bonjour name is unique per printer (it ends with part of
+                // the MAC address), unlike the model.
+                let record = PrinterRecord(displayName: scanner.serviceName, serviceName: scanner.serviceName,
                                            uuid: scanner.uuid, host: r.host, port: r.port)
                 if let existing = model.addPrinter(record, present: true) {
                     self.error = "This printer is already in your list as \"\(existing.displayName)\"."
