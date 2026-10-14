@@ -7,7 +7,7 @@ English (metadata.md).
 ## Subtitle (max 30)
 
 ```
-Tus escaneos, aquí
+Escanea directo a tu teléfono
 ```
 
 ## Keywords (max 100)

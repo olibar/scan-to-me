@@ -6,7 +6,7 @@ Paste into the French localization of the version page. Name stays
 ## Subtitle (max 30)
 
 ```
-Vos numérisations, ici
+Numérisez vers votre téléphone
 ```
 
 ## Keywords (max 100)
