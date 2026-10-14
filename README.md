@@ -97,6 +97,7 @@ terminal, handy to validate a new printer model.
 | Paper | A4 | A4 or Letter scan area |
 | File name | `scan_{date}_{time}` | Tokens `{date}` `{time}` `{page}`; `{page}` is used for JPEG pages |
 | Close PDF after | 120 s | Idle time before a multi-page PDF is closed without a "Done" |
+| Trim empty margins | on | Flatbed: an original smaller than the page, laid in the glass's reference corner and narrower than 3/4 of the page, is saved at its own size (PDF page shrunk around the unchanged image; JPEG re-encoded). Full-width pages and feeder scans are never trimmed |
 | Folder | app folder | App Documents folder or any folder picked in Files |
 | Also add JPEG scans to Photos | off | Adds JPEG scans to the Photos library (add-only permission) |
 

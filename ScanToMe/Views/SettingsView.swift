@@ -12,7 +12,7 @@ struct SettingsView: View {
                 Section("On the printer") {
                     TextField("Name shown on the printer", text: $model.preferences.destinationName)
                 }
-                Section("Scan") {
+                Section {
                     Picker("Format", selection: $model.preferences.format) {
                         Text("PDF").tag(OutputFormat.pdf)
                         Text("JPEG").tag(OutputFormat.jpeg)
@@ -31,6 +31,11 @@ struct SettingsView: View {
                     Stepper(value: $model.preferences.pageTimeout, in: 30...600, step: 30) {
                         Text("Close PDF after \(Int(model.preferences.pageTimeout)) s idle")
                     }
+                    Toggle("Trim empty margins", isOn: $model.preferences.trimMargins)
+                } header: {
+                    Text("Scan")
+                } footer: {
+                    Text("Trim: a smaller original (receipt, card, photo, half sheet) placed in the corner of the glass is saved at its own size instead of a full page. Full-width pages and the document feeder are never trimmed.")
                 }
                 Section {
                     TextField("Pattern", text: $model.preferences.filenamePattern)

@@ -303,14 +303,19 @@ public actor PrinterSession {
         let settings = preferences.scanSettings(for: useAdf ? .adf : .platen, caps: caps)
         let pages = try await client.scanPages(settings)
         // A feeder run is a complete document.
-        try await store(pages, format: format, dpi: settings.resolution, single: single || settings.source == .adf)
+        try await store(pages, format: format, dpi: settings.resolution, single: single || settings.source == .adf,
+                        trim: preferences.trimMargins && settings.source == .platen)
     }
 
     /// Writes JPEG pages at once, or appends them to the open PDF, which is
-    /// closed when `single` says the document is complete.
-    func store(_ pages: [Data], format: OutputFormat, dpi: Int, single: Bool) async throws {
+    /// closed when `single` says the document is complete. `trim` cuts the
+    /// empty margins around a smaller original.
+    func store(_ pages: [Data], format: OutputFormat, dpi: Int, single: Bool, trim: Bool) async throws {
+        let crops = pages.map { trim ? ContentTrim.contentRect(jpeg: $0, dpi: dpi) : nil }
+        if trim { log(.debug, "trim: \(crops.compactMap { $0 }.count) of \(pages.count) pages trimmed") }
         if format == .jpeg {
-            for img in pages {
+            for (img, crop) in zip(pages, crops) {
+                let img = crop.map { ContentTrim.croppedJPEG(img, to: $0) } ?? img
                 jpegPage += 1
                 let base = FilenamePattern.render(preferences.filenamePattern, date: Date(), page: jpegPage)
                 let url = try await sink.write(img, baseName: base, ext: "jpg")
@@ -322,8 +327,8 @@ public actor PrinterSession {
             return
         }
         var doc = document ?? ScanDocument()
-        for img in pages {
-            doc.pages.append(PDFWriter.Page(jpeg: img, dpi: dpi))
+        for (img, crop) in zip(pages, crops) {
+            doc.pages.append(PDFWriter.Page(jpeg: img, dpi: dpi, crop: crop))
         }
         doc.lastPage = Date()
         document = doc

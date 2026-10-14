@@ -33,13 +33,16 @@ public struct ScanPreferences: Codable, Sendable, Equatable {
     public var pageTimeout: TimeInterval
     /// Also add JPEG scans to the Photos library.
     public var saveJPEGToPhotos: Bool
+    /// Cut the empty margins around originals smaller than the paper size
+    /// (flatbed only; feeder pages are full pages).
+    public var trimMargins: Bool
 
     public static let resolutionRange = 75...1200
     public static let resolutionChoices = [75, 100, 150, 200, 300, 600, 1200]
 
     public init(destinationName: String, format: OutputFormat = .pdf, resolution: Int = 300,
                 colorMode: ColorMode = .color, paper: Paper = .a4, filenamePattern: String = "scan_{date}_{time}",
-                pageTimeout: TimeInterval = 120, saveJPEGToPhotos: Bool = false) {
+                pageTimeout: TimeInterval = 120, saveJPEGToPhotos: Bool = false, trimMargins: Bool = true) {
         self.destinationName = destinationName
         self.format = format
         self.resolution = resolution
@@ -48,6 +51,22 @@ public struct ScanPreferences: Codable, Sendable, Equatable {
         self.filenamePattern = filenamePattern
         self.pageTimeout = pageTimeout
         self.saveJPEGToPhotos = saveJPEGToPhotos
+        self.trimMargins = trimMargins
+    }
+
+    /// Settings saved by older versions lack the newer keys; those take their
+    /// defaults instead of failing the whole saved state.
+    public init(from decoder: any Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.init(destinationName: try c.decode(String.self, forKey: .destinationName),
+                  format: try c.decode(OutputFormat.self, forKey: .format),
+                  resolution: try c.decode(Int.self, forKey: .resolution),
+                  colorMode: try c.decode(ColorMode.self, forKey: .colorMode),
+                  paper: try c.decode(Paper.self, forKey: .paper),
+                  filenamePattern: try c.decode(String.self, forKey: .filenamePattern),
+                  pageTimeout: try c.decode(TimeInterval.self, forKey: .pageTimeout),
+                  saveJPEGToPhotos: try c.decodeIfPresent(Bool.self, forKey: .saveJPEGToPhotos) ?? false,
+                  trimMargins: try c.decodeIfPresent(Bool.self, forKey: .trimMargins) ?? true)
     }
 
     public static func defaults(deviceName: String) -> ScanPreferences {
