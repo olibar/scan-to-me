@@ -21,7 +21,16 @@ struct ListeningView: View {
                 NavigationLink { LogView() } label: { Label("Log", systemImage: "doc.text.magnifyingglass") }
             }
             .quickLookPreview($previewURL)
+            .onAppear(perform: openScreenshotPreview)
         }
+    }
+
+    /// Debug builds only: `-ScreenshotPreview YES` opens the newest scan, for
+    /// design/screenshots.sh.
+    private func openScreenshotPreview() {
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "ScreenshotPreview") { previewURL = model.recentScans.first?.url }
+        #endif
     }
 
     private var controlSection: some View {
