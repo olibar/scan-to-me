@@ -23,6 +23,9 @@ final class AppModel {
     private(set) var isListening = false
     /// Last problem worth showing in the UI (bad folder, failed Photos save).
     var lastError: String?
+    /// Set while the chosen folder cannot be opened; scans go to the app
+    /// folder meanwhile and the choice is kept so it can recover.
+    private(set) var folderProblem: String?
 
     private struct RunningSession {
         let session: PrinterSession
@@ -57,7 +60,13 @@ final class AppModel {
 
     func startListening() {
         guard !isListening else { return }
-        guard let folder = outputFolder ?? resolveOutputFolder() else {
+        // Retry a chosen folder that could not be opened last time (iCloud not
+        // signed in yet, provider app updating...).
+        if outputFolder == nil || folderProblem != nil {
+            releaseOutputFolder()
+            resolveOutputFolder()
+        }
+        guard let folder = outputFolder else {
             lastError = "The output folder is not available. Choose another one in Settings."
             return
         }
@@ -360,11 +369,14 @@ final class AppModel {
                 }
             }
             outputFolder = (resolved.url, resolved.scoped)
+            folderProblem = nil
             return outputFolder
         } catch {
             Self.log.error("app: output folder unavailable: \(error)")
-            lastError = "Output folder unavailable (\(error.localizedDescription)). Falling back to the app folder."
-            outputLocation = .documents
+            if !outputLocation.isDocuments {
+                folderProblem = "\(outputLocation.displayName) can't be opened right now (\(error.localizedDescription)). "
+                    + "Scans are saved in the app folder until it is available again."
+            }
             if let docs = try? OutputLocation.documents.resolve() {
                 outputFolder = (docs.url, false)
                 return outputFolder
