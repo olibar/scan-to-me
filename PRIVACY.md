@@ -1,10 +1,10 @@
 # Scan to Me - Privacy Policy
 
-Last updated: 2026-09-06
+Last updated: 2026-10-14
 
 Scan to Me does not collect, store or transmit any personal data.
 
-The app communicates only with HP printers on your local network in order to
+The app communicates only with the printers on your local network in order to
 receive scanned documents. Scanned files are saved on your device, in the
 location you choose: the app's own folder (visible in the Files app), a
 folder you pick in the Files app, or the Photos library. Nothing is sent to
@@ -17,4 +17,4 @@ Permissions the app asks for and why:
 - Photos (add only, optional): to add JPEG scans to your Photos library when
   you enable that option in Settings.
 
-Contact: olivier.barlier@sinimed.com
+Contact: obarlier@gmail.com
