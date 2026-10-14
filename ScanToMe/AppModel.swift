@@ -32,6 +32,8 @@ final class AppModel {
     private var outputFolder: (url: URL, scoped: Bool)?
     private let backgroundGuard = BackgroundTaskGuard()
     private var saveTask: Task<Void, Never>?
+    /// Pending restart after a settings edit; replaced by each new edit.
+    private var restartTask: Task<Void, Never>?
 
     init() {
         preferences = ScanPreferences.defaults(deviceName: UIDevice.current.name)
@@ -72,19 +74,48 @@ final class AppModel {
         persist()
     }
 
-    func stopListening(userInitiated: Bool = true) {
-        guard isListening else { return }
+    /// Cancels every session and returns their runners, which finish once
+    /// the session has unregistered from its printer.
+    @discardableResult
+    func stopListening(userInitiated: Bool = true) -> [Task<Void, Never>] {
+        guard isListening else { return [] }
         Self.log.debug("app: stop listening userInitiated=\(userInitiated)")
+        if userInitiated { restartTask?.cancel() }
         for (_, running) in sessions {
             running.runner.cancel()
             running.pump.cancel()
         }
+        let runners = sessions.values.map(\.runner)
         sessions.removeAll()
         isListening = false
         if userInitiated { wantsListening = false }
         UIApplication.shared.isIdleTimerDisabled = false
         for id in statuses.keys { statuses[id] = .stopped }
         persist()
+        return runners
+    }
+
+    /// Restarts the sessions so new settings take effect. Invalid settings
+    /// leave the running sessions alone. The old registrations are removed
+    /// before new ones are made, so the printer never lists the device twice.
+    private func restartListening() async {
+        guard isListening else { return }
+        do {
+            try preferences.validate()
+        } catch {
+            Self.log.debug("app: restart skipped, invalid settings: \(error)")
+            lastError = "\(error). Still using the previous settings."
+            return
+        }
+        Self.log.debug("app: restarting sessions for new settings")
+        for runner in stopListening(userInitiated: false) {
+            await runner.value
+        }
+        guard !Task.isCancelled, wantsListening, !isListening else {
+            Self.log.debug("app: restart abandoned (stopped meanwhile)")
+            return
+        }
+        startListening()
     }
 
     private func start(printer: PrinterRecord, sink: FolderScanSink) {
@@ -149,15 +180,22 @@ final class AppModel {
         switch phase {
         case .background:
             guard isListening else { return }
+            restartTask?.cancel()
             let running = Array(sessions.values)
             backgroundGuard.begin { [weak self] in
                 self?.stopListening(userInitiated: false)
             }
             Task {
-                for r in running where await r.session.isBusy {
-                    await r.session.closeOpenDocument()
+                // Let scans in flight land in the file, then unregister from
+                // the printers before iOS suspends the app.
+                await withTaskGroup(of: Void.self) { group in
+                    for r in running {
+                        group.addTask { await r.session.closeOpenDocument() }
+                    }
                 }
-                stopListening(userInitiated: false)
+                for runner in stopListening(userInitiated: false) {
+                    await runner.value
+                }
                 backgroundGuard.end()
             }
         case .active:
@@ -192,13 +230,17 @@ final class AppModel {
 
     // MARK: - Settings
 
-    /// Called after any edit to `preferences`; restarts sessions so the new
-    /// name and scan settings take effect.
+    /// Called after any edit to `preferences`. Sessions restart once the
+    /// edits pause, not on every keystroke of the name field.
     func preferencesChanged() {
         persist()
         guard isListening else { return }
-        stopListening(userInitiated: false)
-        startListening()
+        restartTask?.cancel()
+        restartTask = Task {
+            try? await Task.sleep(for: .seconds(1.5))
+            guard !Task.isCancelled else { return }
+            await restartListening()
+        }
     }
 
     func setOutputLocation(_ location: OutputLocation) {
@@ -208,8 +250,8 @@ final class AppModel {
         resolveOutputFolder()
         persist()
         if isListening {
-            stopListening(userInitiated: false)
-            startListening()
+            restartTask?.cancel()
+            restartTask = Task { await restartListening() }
         }
     }
 

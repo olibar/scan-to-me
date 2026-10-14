@@ -14,6 +14,8 @@ actor FakePrinter: HTTPTransport {
     var expectedName = "Test Phone"
     var jpeg = Fixtures.jpeg(width: 30, height: 40, components: 3)
     var deletes = 0
+    /// Some firmwares send no ETag, so the event table cannot long-poll.
+    var sendsETag = true
     var requests: [String] = []
 
     let destURI = "/WalkupScanToComp/WalkupScanToCompDestinations/abc-123"
@@ -26,6 +28,7 @@ actor FakePrinter: HTTPTransport {
     func setAdfLoaded(_ v: Bool) { adfLoaded = v }
     func setShortcut(_ s: String) { shortcut = s }
     func setDestinationMissing(_ v: Bool) { destinationMissing = v }
+    func setSendsETag(_ v: Bool) { sendsETag = v }
 
     func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
         let url = request.url!
@@ -62,7 +65,7 @@ actor FakePrinter: HTTPTransport {
                 try await Task.sleep(for: .milliseconds(30))
                 return reply(304)
             }
-            return reply(200, Fixtures.eventTable(aging: aging), headers: ["ETag": etag])
+            return reply(200, Fixtures.eventTable(aging: aging), headers: sendsETag ? ["ETag": etag] : [:])
         case ("POST", "/Scan/Jobs"):
             let body = String(decoding: request.httpBody ?? Data(), as: UTF8.self)
             let want = adfLoaded ? "<scan:InputSource>Adf</scan:InputSource>" : "<scan:InputSource>Platen</scan:InputSource>"
