@@ -199,6 +199,20 @@ struct PrinterSessionFlowTests {
         _ = await task.value
     }
 
+    @Test func noETagPollingIsPaced() async throws {
+        let printer = FakePrinter()
+        await printer.setSendsETag(false)
+        let session = makeSession(printer, sink: MemorySink())
+        let task = Task { await session.run() }
+        #expect(await waitReady(session))
+        try await Task.sleep(for: .milliseconds(1500))
+        let polls = await printer.requests.filter { $0 == "GET /EventMgmt/EventTable" }.count
+        // About one per second; unpaced it would be hundreds.
+        #expect(polls <= 4)
+        task.cancel()
+        _ = await task.value
+    }
+
     @Test func idleSessionDoesNotScan() async throws {
         let printer = FakePrinter()
         let sink = MemorySink()

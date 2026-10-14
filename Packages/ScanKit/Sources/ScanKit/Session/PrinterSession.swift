@@ -19,6 +19,9 @@ public actor PrinterSession {
     private let continuation: AsyncStream<SessionEvent>.Continuation
 
     var client: LEDMClient
+    /// Where the printer answers now: the record's address until Bonjour
+    /// finds it elsewhere, then the new one for every later reconnect.
+    private var address: (host: String, port: Int)
     var flavor: WalkupFlavor = .walkupScanToComp
     /// LEDM destination path, or the absolute eSCL subscription URL.
     var destinationURI = ""
@@ -44,17 +47,22 @@ public actor PrinterSession {
         self.transport = transport
         self.rediscover = rediscover
         self.client = LEDMClient(host: printer.host, port: printer.port, transport: transport)
+        self.address = (printer.host, printer.port)
         var cont: AsyncStream<SessionEvent>.Continuation!
         self.events = AsyncStream(bufferingPolicy: .bufferingNewest(200)) { cont = $0 }
         self.continuation = cont
     }
 
-    /// A scan job is in flight or a multi-page PDF is open.
-    public var isBusy: Bool { scanning || document != nil }
-
     /// Writes the open PDF with the pages received so far (used before the
-    /// app is suspended).
-    public func closeOpenDocument() async {
+    /// app is suspended). A scan in flight is given up to `scanTimeout` to
+    /// deliver its pages first, so they end up in the file too.
+    public func closeOpenDocument(scanTimeout: Duration = .seconds(20)) async {
+        let deadline = ContinuousClock.now + scanTimeout
+        if scanning { log(.info, "waiting for the scan in progress before saving") }
+        while scanning, ContinuousClock.now < deadline {
+            try? await Task.sleep(for: .milliseconds(200))
+        }
+        if scanning { log(.warning, "scan still running after \(scanTimeout), saving what arrived") }
         await finishDocument()
     }
 
@@ -87,18 +95,19 @@ public actor PrinterSession {
     }
 
     private func runOnce() async throws {
-        client = LEDMClient(host: printer.host, port: printer.port, transport: transport)
+        client = LEDMClient(host: address.host, port: address.port, transport: transport)
         do {
             try await setup()
         } catch {
             try Task.checkCancellation()
             guard let rediscover, printer.serviceName != nil else { throw error }
-            log(.warning, "printer unreachable at \(printer.address), looking it up via Bonjour: \(error)")
+            log(.warning, "printer unreachable at \(address.host):\(address.port), looking it up via Bonjour: \(error)")
             guard let found = await rediscover(printer) else {
                 throw LEDMError.timeout("printer \(printer.displayName) not found via Bonjour")
             }
             log(.info, "printer found at \(found.host):\(found.port)")
             emit(.addressChanged(host: found.host, port: found.port))
+            address = found
             client = LEDMClient(host: found.host, port: found.port, transport: transport)
             try await setup()
         }
@@ -189,7 +198,10 @@ public actor PrinterSession {
                 table = next
                 if changed {
                     await handleEvents(table.events)
-                } else {
+                }
+                // Without an ETag the request cannot long-poll and returns at
+                // once, so pace it instead of hammering the printer.
+                if !changed || (table.etag ?? "").isEmpty {
                     try await Task.sleep(for: .seconds(1))
                 }
             } catch is CancellationError {
