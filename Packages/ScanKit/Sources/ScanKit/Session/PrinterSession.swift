@@ -222,6 +222,8 @@ public actor PrinterSession {
             } catch is CancellationError {
                 throw CancellationError()
             } catch {
+                // A stopped session cancels its request: not a failure.
+                if Task.isCancelled { throw CancellationError() }
                 failures += 1
                 log(.warning, "event poll failed (\(failures)/5): \(error)")
                 if failures >= 5 {

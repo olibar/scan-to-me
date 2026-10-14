@@ -39,6 +39,9 @@ struct ListeningView: View {
             if let error = model.lastError {
                 Text(error).font(.footnote).foregroundStyle(.red)
             }
+            if let problem = model.folderProblem {
+                Text(problem).font(.footnote).foregroundStyle(.orange)
+            }
         } footer: {
             Text(model.isListening
                  ? "The screen stays on while listening. Leave Scan to Me open, then on the printer choose Scan > Computer > \"\(model.preferences.destinationName)\"."

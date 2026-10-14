@@ -45,6 +45,9 @@ struct SettingsView: View {
                 }
                 Section {
                     LabeledContent("Folder", value: model.outputLocation.displayName)
+                    if let problem = model.folderProblem {
+                        Text(problem).font(.footnote).foregroundStyle(.red)
+                    }
                     Button("Choose folder...") { pickingFolder = true }
                     if !model.outputLocation.isDocuments {
                         Button("Use the app folder") { model.setOutputLocation(.documents) }
@@ -53,7 +56,7 @@ struct SettingsView: View {
                 } header: {
                     Text("Save to")
                 } footer: {
-                    Text("The app folder is visible in Files under On My iPhone > Scan to Me. Chosen folders can live in iCloud Drive or any file provider.")
+                    Text("The app folder is visible in Files under On My iPhone > Scan to Me. For iCloud Drive, Dropbox, Google Drive or OneDrive, tap Choose folder, then Browse. A service missing there must be switched on in the Files app: Browse > ... > Edit.")
                 }
                 Section("About") {
                     LabeledContent("Version", value: Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "-")
