@@ -39,6 +39,7 @@ Press Scan on the printer, choose Computer, pick your phone from the list, and t
 
 - Uses the Scan to Computer button on the printer's own panel: no cables, no cloud, no account.
 - Multi-page PDFs, page by page from the glass or the whole stack from the document feeder.
+- Receipts, cards and photos are saved at their own size, not as a mostly empty page.
 - Saves into the app's folder, any folder in Files, iCloud Drive or another file provider. JPEG scans can also go to Photos.
 - Finds printers on your network automatically, or add one by IP address. Several printers at once.
 - Follows the printer when its network address changes.
@@ -52,11 +53,10 @@ Your phone appears on the printer while Scan to Me is open and listening: iOS do
 Scan to Me is an independent app, not affiliated with any printer manufacturer.
 ```
 
-## What's New (1.0.0)
+## What's New
 
-```
-First release.
-```
+Not shown for the first version of an app; fill it from the next update on.
+First release under this record: 1.2.0 (tag v1.2.0).
 
 ## Screenshots
 
