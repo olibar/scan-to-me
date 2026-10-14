@@ -1,7 +1,8 @@
 # Scan to Me (iOS)
 
 iPhone/iPad app that registers the device as a "Scan to Computer" destination
-on network all-in-ones (today HP inkjets via LEDM, HTTP port 8080/80), receives
+on network all-in-ones (today HP inkjets via LEDM on port 8080/80, or eSCL
+walkup subscriptions on port 80 for models that dropped LEDM), receives
 the pages when the user presses Scan on the printer and saves them as PDF or
 JPEG. Standalone project: the Go client `hpscan` (github.com/olibar/hpscan)
 was the protocol reference, nothing is shared with it. Names are brand-neutral
@@ -13,7 +14,10 @@ brand names out of identifiers, UI strings and App Store metadata.
 - `Packages/ScanKit` -- SwiftPM package, zero dependencies, iOS 17 /
   macOS 14. All protocol, session state machine, PDF writing, discovery and
   file output. Builds and tests on a Mac with Command Line Tools only.
-  - `Sources/ScanKit/{XML,LEDM,Session,Output,Discovery}`
+  - `Sources/ScanKit/{XML,LEDM,ESCL,Session,Output,Discovery}`. The session
+    tries LEDM first and falls back to eSCL (`PrinterSession+ESCL.swift`);
+    eSCL event polling runs in its own task and must never pause during a
+    scan, or the panel reports the file could not be saved.
   - `Sources/scankit-cli` -- macOS harness (`discover`, `serve`) to validate
     the protocol against a real printer without Xcode.
   - `Tests/ScanKitTests` -- Swift Testing (`import Testing`, `#expect`), fake

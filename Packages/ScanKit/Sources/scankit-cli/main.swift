@@ -22,7 +22,7 @@ func option(_ name: String, in args: [String]) -> String? {
 }
 
 func discover() async {
-    print("browsing _scanner._tcp for 5 seconds...")
+    print("browsing \(ScannerBrowser.serviceTypes.joined(separator: ", ")) for 5 seconds...")
     let latest = await withTaskGroup(of: [DiscoveredScanner].self) { group in
         group.addTask {
             var last: [DiscoveredScanner] = []

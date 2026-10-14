@@ -33,6 +33,7 @@
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_scanner._tcp</string>
+		<string>_uscan._tcp</string>
 	</array>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Scan to Me can add your JPEG scans to the Photos library when you enable that option in Settings.</string>

@@ -1,39 +1,64 @@
-// Bonjour browsing for _scanner._tcp with Network.framework.
+// Bonjour browsing for scanners with Network.framework: _scanner._tcp (LEDM
+// printers) and _uscan._tcp (eSCL printers, some of which announce only that).
 import Foundation
 import Network
 
 public enum ScannerBrowser {
-    public static let serviceType = "_scanner._tcp"
+    /// In order of preference when a printer announces both.
+    public static let serviceTypes = ["_scanner._tcp", "_uscan._tcp"]
 
-    /// Streams the current set of scanners every time it changes. The
-    /// browser is cancelled when the consumer stops iterating.
-    public static func browse() -> AsyncStream<[DiscoveredScanner]> {
-        AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
-            let params = NWParameters()
-            params.includePeerToPeer = false
-            let browser = NWBrowser(for: .bonjourWithTXTRecord(type: serviceType, domain: nil), using: params)
-            Log.discover.debug("discover: browsing \(serviceType)")
-            browser.stateUpdateHandler = { state in
-                switch state {
-                case let .failed(error):
-                    Log.discover.error("discover: browser failed: \(error)")
-                    continuation.finish()
-                case .cancelled:
-                    continuation.finish()
-                default:
-                    Log.discover.debug("discover: browser state \(String(describing: state))")
+    /// Latest results per service type. Only touched on the browsers' queue.
+    private final class Results: @unchecked Sendable {
+        var byType: [String: [DiscoveredScanner]] = [:]
+
+        /// One entry per instance name, the preferred service type winning.
+        var merged: [DiscoveredScanner] {
+            var seen = Set<String>()
+            var out: [DiscoveredScanner] = []
+            for type in serviceTypes {
+                for s in byType[type] ?? [] where seen.insert(s.serviceName.lowercased()).inserted {
+                    out.append(s)
                 }
             }
-            browser.browseResultsChangedHandler = { results, _ in
-                let scanners = results.compactMap(scanner(from:))
-                Log.discover.debug("discover: results=\(scanners.count)")
-                continuation.yield(scanners)
+            return out
+        }
+    }
+
+    /// Streams the current set of scanners every time it changes. The
+    /// browsers are cancelled when the consumer stops iterating.
+    public static func browse() -> AsyncStream<[DiscoveredScanner]> {
+        AsyncStream(bufferingPolicy: .bufferingNewest(1)) { continuation in
+            let queue = DispatchQueue(label: "com.obarlier.scantome.browser")
+            let results = Results()
+            var browsers: [NWBrowser] = []
+            for type in serviceTypes {
+                let params = NWParameters()
+                params.includePeerToPeer = false
+                let browser = NWBrowser(for: .bonjourWithTXTRecord(type: type, domain: nil), using: params)
+                Log.discover.debug("discover: browsing \(type)")
+                browser.stateUpdateHandler = { state in
+                    switch state {
+                    case let .failed(error):
+                        // One type failing must not end the other's results.
+                        Log.discover.error("discover: browser \(type) failed: \(error)")
+                    default:
+                        Log.discover.debug("discover: browser \(type) state \(String(describing: state))")
+                    }
+                }
+                browser.browseResultsChangedHandler = { found, _ in
+                    results.byType[type] = found.compactMap(scanner(from:))
+                    let merged = results.merged
+                    Log.discover.debug("discover: \(type) results=\(found.count) merged=\(merged.count)")
+                    continuation.yield(merged)
+                }
+                browser.start(queue: queue)
+                browsers.append(browser)
             }
+            let all = browsers
             continuation.onTermination = { _ in
                 Log.discover.debug("discover: browse finished")
-                browser.cancel()
+                for b in all { b.cancel() }
             }
-            browser.start(queue: DispatchQueue(label: "com.obarlier.scantome.browser"))
         }
     }
 
