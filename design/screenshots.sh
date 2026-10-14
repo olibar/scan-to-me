@@ -1,6 +1,8 @@
 #!/bin/zsh
 # screenshots.sh - App Store screenshots of Scan to Me, captured from the
-# simulator: 4 screens x 4 languages x (iPhone 6.9", iPad 13").
+# simulator: 4 screens x 4 languages x (iPhone 6.3", iPad 13"). App Store
+# Connect's iPhone slot is "iPhone with Dynamic Island (medium display)":
+# 1206 x 2622 (6.3") or 1179 x 2556 (6.1"); 6.9" images are rejected there.
 #
 # Usage, from the repository root:  zsh design/screenshots.sh
 # Output: appstore/screenshots/<device>/<language>/NN-<screen>.png, numbered in
@@ -17,7 +19,7 @@ OUT="$ROOT/appstore/screenshots"
 WORK=$(mktemp -d)
 IP=$(ipconfig getifaddr en0 || ipconfig getifaddr en1)
 BUNDLE=com.obarlier.scantome
-DEVICES=("iPhone 17 Pro Max|iphone-6.9" "iPad Pro 13-inch (M5)|ipad-13")
+DEVICES=("iPhone 17 Pro|iphone-6.3" "iPad Pro 13-inch (M5)|ipad-13")
 LANGS=(en fr es zh-Hans)
 SCREENS=("01-listening|" "02-scan-preview|-ScreenshotPreview YES" "03-printers|-ScreenshotTab printers" "04-settings|-ScreenshotTab settings")
 

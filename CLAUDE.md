@@ -91,10 +91,16 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
   Connect. Reviewers have no compatible printer: the review notes explain the
   requirement; attach a screen recording of a real scan.
 - Screenshots: `zsh design/screenshots.sh` captures 4 screens x 4 languages
-  for the 6.9" iPhone (1320x2868) and 13" iPad (2064x2752) simulators into
+  for the 6.3" iPhone (1206x2622; App Store Connect's iPhone slot is "medium
+  display" 6.1"/6.3" and rejects 6.9") and 13" iPad (2064x2752) simulators into
   `appstore/screenshots/` (git-ignored), numbered in upload order. It runs a
   stand-in printer on this Mac and seeds sample state; the debug-only launch
   options `-ScreenshotTab` / `-ScreenshotPreview` open the screens.
+- iOS 27 creative assets: `swift design/store-assets.swift` (after the
+  screenshots) writes the product page header (21:9, 3840x1646) and the
+  search results asset (3:2, 3840x2560) per language into
+  `appstore/creative/` (git-ignored); upload them in App Store Connect with
+  the version or in the Asset Library.
 
 ## Git
 
