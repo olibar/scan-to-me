@@ -6,6 +6,7 @@ import SwiftUI
 struct ListeningView: View {
     @Environment(AppModel.self) private var model
     @State private var previewURL: URL?
+    @State private var confirmingClear = false
 
     var body: some View {
         NavigationStack {
@@ -65,7 +66,7 @@ struct ListeningView: View {
     }
 
     private var recentSection: some View {
-        Section("Recent scans") {
+        Section {
             if model.recentScans.isEmpty {
                 Text("No scans yet.").foregroundStyle(.secondary)
             }
@@ -88,7 +89,29 @@ struct ListeningView: View {
                 }
                 .contentShape(Rectangle())
                 .onTapGesture { if exists { previewURL = scan.url } }
+                .swipeActions {
+                    Button("Remove", role: .destructive) { model.removeRecentScan(scan.id) }
+                }
             }
+        } header: {
+            HStack {
+                Text("Recent scans")
+                Spacer()
+                if !model.recentScans.isEmpty {
+                    Button("Clear") { confirmingClear = true }
+                        .font(.footnote)
+                        .textCase(nil)
+                }
+            }
+        } footer: {
+            if !model.recentScans.isEmpty {
+                Text("Swipe left to remove one. Removing only hides it here; the file stays in its folder.")
+            }
+        }
+        .confirmationDialog("Clear the list of recent scans?", isPresented: $confirmingClear, titleVisibility: .visible) {
+            Button("Clear list", role: .destructive) { model.clearRecentScans() }
+        } message: {
+            Text("The scanned files stay in their folder.")
         }
     }
 }

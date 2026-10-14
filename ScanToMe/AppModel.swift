@@ -264,6 +264,22 @@ final class AppModel {
         }
     }
 
+    // MARK: - Recent scans
+
+    /// Hides one scan from the list; its file is left where it was saved.
+    func removeRecentScan(_ id: UUID) {
+        Self.log.debug("app: remove recent scan \(id)")
+        recentScans.removeAll { $0.id == id }
+        persist()
+    }
+
+    /// Empties the list; the files are left where they were saved.
+    func clearRecentScans() {
+        Self.log.debug("app: clear recent scans count=\(self.recentScans.count)")
+        recentScans.removeAll()
+        persist()
+    }
+
     // MARK: - Presence
 
     private func startPresenceChecks() {
