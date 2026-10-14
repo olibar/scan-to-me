@@ -15,13 +15,12 @@ extension PrinterSession {
     /// error standing (the printer is unreachable or speaks neither).
     func useESCL(because ledmError: any Error) async throws -> Bool {
         let host = URLComponents(url: client.baseURL, resolvingAgainstBaseURL: false)?.host ?? printer.host
-        let port = ESCLClient.port(forRecorded: client.baseURL.port ?? 80)
-        let candidate = ESCLClient(host: host, port: port, transport: transport)
-        guard await candidate.probe() else {
-            Log.session.debug("session: no eSCL interface at \(host):\(port) either")
+        let recorded = client.baseURL.port ?? 80
+        guard let candidate = await ESCLClient.locate(host: host, recordedPort: recorded, transport: transport) else {
+            Log.session.debug("session: no eSCL interface at \(host) on \(ESCLClient.candidatePorts(forRecorded: recorded)) either")
             return false
         }
-        log(.info, "no usable LEDM interface (\(ledmError)), using eSCL")
+        log(.info, "no usable LEDM interface (\(ledmError)), using eSCL at \(candidate.baseURL.absoluteString)")
         escl = candidate
         flavor = .escl
         esclCaps = try await candidate.capabilities()

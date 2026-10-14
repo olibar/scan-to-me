@@ -34,6 +34,6 @@ public enum PrinterProbe {
         if let r = try? await ledm.request("GET", "/DevMgmt/DiscoveryTree.xml", timeout: 5), (200...299).contains(r.status) {
             return true
         }
-        return await ESCLClient(host: host, port: ESCLClient.port(forRecorded: port), transport: transport).probe()
+        return await ESCLClient.locate(host: host, recordedPort: port, transport: transport) != nil
     }
 }

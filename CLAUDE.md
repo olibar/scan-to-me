@@ -2,7 +2,7 @@
 
 iPhone/iPad app that registers the device as a "Scan to Computer" destination
 on network all-in-ones (today HP inkjets via LEDM on port 8080/80, or eSCL
-walkup subscriptions on port 80 for models that dropped LEDM), receives
+walkup subscriptions (announced port, else 80) for models that dropped LEDM), receives
 the pages when the user presses Scan on the printer and saves them as PDF or
 JPEG. Standalone project: the Go client `hpscan` (github.com/olibar/hpscan)
 was the protocol reference, nothing is shared with it. Names are brand-neutral
