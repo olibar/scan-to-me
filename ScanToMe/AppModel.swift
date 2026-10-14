@@ -273,6 +273,30 @@ final class AppModel {
         persist()
     }
 
+    /// Deletes a scan's file and its list entry. A file already gone just
+    /// leaves the list; one that cannot be reached (a folder chosen earlier
+    /// and no longer accessible) stays, with an explanation.
+    func deleteScan(_ scan: SavedScan) async {
+        let url = scan.url
+        Self.log.debug("app: delete scan file \(url.lastPathComponent)")
+        let result = await Task.detached(priority: .userInitiated) { () -> String? in
+            guard FileManager.default.fileExists(atPath: url.path) else { return nil }
+            var coordError: NSError?
+            var deleteError: (any Error)?
+            NSFileCoordinator().coordinate(writingItemAt: url, options: .forDeleting, error: &coordError) { target in
+                do { try FileManager.default.removeItem(at: target) } catch { deleteError = error }
+            }
+            return (coordError ?? deleteError).map { $0.localizedDescription }
+        }.value
+        if let result {
+            Self.log.error("app: delete failed for \(url.lastPathComponent): \(result)")
+            lastError = "Could not delete \(url.lastPathComponent) (\(result)). Delete it in the Files app instead."
+            return
+        }
+        log.append(LogEntry(level: .info, printer: scan.printer, message: "deleted \(url.lastPathComponent)"))
+        removeRecentScan(scan.id)
+    }
+
     /// Empties the list; the files are left where they were saved.
     func clearRecentScans() {
         Self.log.debug("app: clear recent scans count=\(self.recentScans.count)")
