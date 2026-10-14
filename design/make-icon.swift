@@ -4,9 +4,14 @@
 //
 // Usage, from the repository root:  swift design/make-icon.swift
 //
-// Writes ScanToMe/Assets.xcassets/AppIcon.appiconset/AppIcon.png (1024x1024,
-// opaque RGB, square: iOS applies the corner mask) and prints the glyph's
-// bounding box and margins. Only CoreGraphics and ImageIO are used.
+// Writes into ScanToMe/Assets.xcassets/AppIcon.appiconset/ (1024x1024,
+// square: iOS applies the corner mask) and prints the glyph's margins:
+//   AppIcon.png         white glyph on the blue gradient, opaque (default)
+//   AppIcon-Dark.png    light blue glyph on transparent; iOS 18+ dark icons,
+//                       the system draws the dark background
+//   AppIcon-Tinted.png  white glyph on black, greyscale; iOS 18+ tinted
+//                       icons, the system recolours it with the user's tint
+// Only CoreGraphics and ImageIO are used.
 // All geometry is expressed on the 1024 canvas with y pointing DOWN.
 
 import CoreGraphics
@@ -16,8 +21,8 @@ import UniformTypeIdentifiers
 
 let canvas: CGFloat = 1024
 let srgb = CGColorSpace(name: CGColorSpace.sRGB)!
-let output = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
-    .appendingPathComponent("ScanToMe/Assets.xcassets/AppIcon.appiconset/AppIcon.png")
+let iconSet = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+    .appendingPathComponent("ScanToMe/Assets.xcassets/AppIcon.appiconset")
 
 // MARK: - Palette
 
@@ -31,6 +36,10 @@ func rgb(_ hex: UInt32, _ a: CGFloat = 1) -> CGColor {
 let blueTop = rgb(0x0A93E4)     // top-left
 let blueBottom = rgb(0x005DAA)  // bottom-right
 let white = rgb(0xFFFFFF)
+let black = rgb(0x000000)
+// Dark variant glyph: the same blue, lifted so it stands out on a dark backdrop.
+let darkGlyphTop = rgb(0x5CC0FF)
+let darkGlyphBottom = rgb(0x1E88E5)
 
 // MARK: - Bitmap helpers
 
@@ -122,22 +131,55 @@ func erase(_ ctx: CGContext, _ body: () -> Void) {
 // MARK: - Icon composition
 
 /// Background gradient plus the white glyph drawn by `glyph` into a transparent layer.
-func renderIcon(_ glyph: (CGContext) -> Void) -> CGImage {
-    let size = Int(canvas)
-    let layer = layerContext(size)
+/// The white glyph alone, on transparent, with its cut-outs.
+func glyphLayer(_ glyph: (CGContext) -> Void) -> CGImage {
+    let layer = layerContext(Int(canvas))
     layer.setFillColor(white)
     layer.setStrokeColor(white)
     glyph(layer)
-    let glyphImage = layer.makeImage()!
+    return layer.makeImage()!
+}
 
-    let ctx = opaqueContext(size)
-    let grad = CGGradient(colorsSpace: srgb, colors: [blueTop, blueBottom] as CFArray, locations: [0, 1])!
-    ctx.drawLinearGradient(grad, start: .zero, end: CGPoint(x: canvas, y: canvas), options: [])
-    // Layer is already y-down; undo the flip for the image draw.
+func diagonal(_ top: CGColor, _ bottom: CGColor) -> CGGradient {
+    CGGradient(colorsSpace: srgb, colors: [top, bottom] as CFArray, locations: [0, 1])!
+}
+
+/// Draws a y-down layer image into a y-down context.
+func drawLayer(_ ctx: CGContext, _ image: CGImage) {
     ctx.saveGState()
     flip(ctx, canvas)
-    ctx.draw(glyphImage, in: CGRect(x: 0, y: 0, width: canvas, height: canvas))
+    ctx.draw(image, in: CGRect(x: 0, y: 0, width: canvas, height: canvas))
     ctx.restoreGState()
+}
+
+/// Default icon: white glyph on the blue gradient, opaque.
+func renderIcon(_ glyph: CGImage) -> CGImage {
+    let ctx = opaqueContext(Int(canvas))
+    ctx.drawLinearGradient(diagonal(blueTop, blueBottom), start: .zero, end: CGPoint(x: canvas, y: canvas), options: [])
+    drawLayer(ctx, glyph)
+    return ctx.makeImage()!
+}
+
+/// Dark variant: the glyph filled with a light blue gradient, on transparent.
+func renderDark(_ glyph: CGImage) -> CGImage {
+    let ctx = layerContext(Int(canvas))
+    ctx.drawLinearGradient(diagonal(darkGlyphTop, darkGlyphBottom), start: .zero,
+                           end: CGPoint(x: canvas, y: canvas), options: [])
+    // Keep the gradient only where the glyph is.
+    ctx.setBlendMode(.destinationIn)
+    drawLayer(ctx, glyph)
+    return ctx.makeImage()!
+}
+
+/// Tinted variant: white glyph on black, greyscale and opaque.
+func renderTinted(_ glyph: CGImage) -> CGImage {
+    let size = Int(canvas)
+    let ctx = CGContext(data: nil, width: size, height: size, bitsPerComponent: 8, bytesPerRow: 0,
+                        space: CGColorSpaceCreateDeviceGray(), bitmapInfo: CGImageAlphaInfo.none.rawValue)!
+    flip(ctx, canvas)
+    ctx.setFillColor(black)
+    ctx.fill(CGRect(x: 0, y: 0, width: canvas, height: canvas))
+    drawLayer(ctx, glyph)
     return ctx.makeImage()!
 }
 
@@ -206,6 +248,9 @@ func measure(_ img: CGImage) -> Margins {
 
 // MARK: - Main
 
-let icon = renderIcon(glyph)
+let shape = glyphLayer(glyph)
+let icon = renderIcon(shape)
 print("make-icon: \(measure(icon))")
-writePNG(icon, to: output)
+writePNG(icon, to: iconSet.appendingPathComponent("AppIcon.png"))
+writePNG(renderDark(shape), to: iconSet.appendingPathComponent("AppIcon-Dark.png"))
+writePNG(renderTinted(shape), to: iconSet.appendingPathComponent("AppIcon-Tinted.png"))
