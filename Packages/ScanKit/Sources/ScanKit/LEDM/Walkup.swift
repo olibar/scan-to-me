@@ -1,17 +1,21 @@
 // Destination registration and walkup events, both LEDM flavours.
 import Foundation
 
-/// The two generations of HP scan-to-computer.
+/// The generations of panel-initiated scan-to-computer.
 public enum WalkupFlavor: String, Sendable, Codable {
     /// 2009 REST flavour (/WalkupScan/...).
     case walkupScan = "WalkupScan"
     /// 2010 LEDM flavour (/WalkupScanToComp/...).
     case walkupScanToComp = "WalkupScanToComp"
+    /// eSCL walkup subscriptions (/eSCL/WalkupSubscriptions), on models that
+    /// dropped LEDM. Served by ESCLClient, not LEDMClient.
+    case escl = "eSCL"
 
     var destinationsPath: String {
         switch self {
         case .walkupScan: return "/WalkupScan/WalkupScanDestinations"
         case .walkupScanToComp: return "/WalkupScanToComp/WalkupScanToCompDestinations"
+        case .escl: return "/eSCL/WalkupSubscriptions"
         }
     }
 }
@@ -50,7 +54,8 @@ public struct Destination: Sendable, Equatable {
 }
 
 /// Builds the registration body. The panel shows the Hostname field, so the
-/// caller passes the display name for both.
+/// caller passes the display name for both. eSCL has a single host field and
+/// carries the shortcut names the panel offers.
 func registrationXML(_ flavor: WalkupFlavor, name: String, hostname: String) -> String {
     let name = xmlEscape(name)
     let hostname = xmlEscape(hostname)
@@ -72,6 +77,15 @@ func registrationXML(_ flavor: WalkupFlavor, name: String, hostname: String) -> 
             + "<dd:Name>\(name)</dd:Name>"
             + "<wus:LinkType>Network</wus:LinkType>"
             + "</wus:WalkupScanDestination>"
+    case .escl:
+        let shortcuts = esclShortcuts.map { "<scan:Shortcut>\(xmlEscape($0))</scan:Shortcut>" }.joined()
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            + "<scan:WalkupScanSubscription xmlns:pwg=\"http://www.pwg.org/schemas/2010/12/sm\""
+            + " xmlns:scan=\"http://schemas.hp.com/imaging/escl/2011/05/03\">"
+            + "<scan:HostIdentifier>\(hostname)</scan:HostIdentifier>"
+            + "<scan:Connection>Network</scan:Connection>"
+            + "<scan:Shortcuts>\(shortcuts)</scan:Shortcuts>"
+            + "</scan:WalkupScanSubscription>"
     }
 }
 

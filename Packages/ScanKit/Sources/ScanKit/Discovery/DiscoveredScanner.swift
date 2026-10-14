@@ -1,4 +1,4 @@
-// A _scanner._tcp service seen on the local network.
+// A scanner service (_scanner._tcp or _uscan._tcp) seen on the local network.
 import Foundation
 import Network
 

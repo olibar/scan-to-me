@@ -24,6 +24,7 @@ nobody has confirmed them with the iPhone app yet. If you try one, please
 | Family | Protocol | Notes |
 |---|---|---|
 | HP inkjet all-in-ones, roughly 2010-2020 (Photosmart, OfficeJet, OfficeJet Pro, ENVY, Deskjet) | LEDM | OfficeJet Pro 9010 verified with the desktop version, including the document feeder |
+| HP all-in-ones from roughly 2020 (OfficeJet Pro 91xx, ENVY Inspire, ...) | eSCL | OfficeJet Pro 9120e verified with the desktop version; some models have a Scan to Computer on/off switch in the printer's web page |
 
 ## Not supported yet
 

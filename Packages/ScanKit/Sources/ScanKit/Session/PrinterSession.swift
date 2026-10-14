@@ -12,19 +12,27 @@ public actor PrinterSession {
     public let preferences: ScanPreferences
     public nonisolated let events: AsyncStream<SessionEvent>
 
-    private let sink: any ScanSink
-    private let transport: (any HTTPTransport)?
+    // Not private: PrinterSession+ESCL.swift shares this state.
+    let sink: any ScanSink
+    let transport: (any HTTPTransport)?
     private let rediscover: Rediscover?
     private let continuation: AsyncStream<SessionEvent>.Continuation
 
-    private var client: LEDMClient
-    private var flavor: WalkupFlavor = .walkupScanToComp
-    private var destinationURI = ""
-    private var caps: ScanCaps?
+    var client: LEDMClient
+    var flavor: WalkupFlavor = .walkupScanToComp
+    /// LEDM destination path, or the absolute eSCL subscription URL.
+    var destinationURI = ""
+    var caps: ScanCaps?
     private var tracker = EventTracker()
-    private var document: ScanDocument?
-    private var jpegPage = 0
-    private var scanning = false
+    var document: ScanDocument?
+    var jpegPage = 0
+    var scanning = false
+    /// Set when the printer is served over eSCL instead of LEDM.
+    var escl: ESCLClient?
+    var esclCaps = ESCLCaps()
+    /// Pause between eSCL event polls that found nothing. The printer does
+    /// not long-poll and answers 503 to a tight loop.
+    var esclPollInterval: Duration = .seconds(5)
     /// Most recent status, also delivered through `events`.
     public private(set) var lastStatus: SessionStatus = .connecting
 
@@ -103,14 +111,26 @@ public actor PrinterSession {
         await teardown()
     }
 
+    /// Picks the interface at whatever address is in use: LEDM when it
+    /// offers a walkup flavour, eSCL otherwise.
     private func setup() async throws {
-        let capabilities = try await client.discover()
+        escl = nil
+        let capabilities: Capabilities
+        do {
+            capabilities = try await client.discover()
+        } catch {
+            try Task.checkCancellation()
+            guard try await useESCL(because: error) else { throw error }
+            return
+        }
         if capabilities.walkupScanToComp {
             flavor = .walkupScanToComp
         } else if capabilities.walkupScan {
             flavor = .walkupScan
         } else {
-            throw LEDMError.unsupportedPrinter(resources: capabilities.resources)
+            let unsupported = LEDMError.unsupportedPrinter(resources: capabilities.resources)
+            guard try await useESCL(because: unsupported) else { throw unsupported }
+            return
         }
         if !capabilities.eventTable {
             log(.warning, "printer did not advertise /EventMgmt, trying anyway")
@@ -137,11 +157,16 @@ public actor PrinterSession {
         await finishDocument()
         guard !destinationURI.isEmpty else { return }
         let client = self.client
+        let escl = self.escl
         let uri = destinationURI
         destinationURI = ""
         await Task.detached {
             do {
-                try await client.deleteDestination(at: uri)
+                if let escl {
+                    try await escl.unsubscribe(uri)
+                } else {
+                    try await client.deleteDestination(at: uri)
+                }
             } catch {
                 Log.session.debug("session: unregister failed: \(error)")
             }
@@ -149,6 +174,10 @@ public actor PrinterSession {
     }
 
     private func loop() async throws {
+        if let escl {
+            try await esclLoop(escl)
+            return
+        }
         var (table, _) = try await client.pollEvents(previous: EventTable(), waitSeconds: 0)
         tracker.prime(with: table)
         var failures = 0
@@ -193,7 +222,7 @@ public actor PrinterSession {
                 return
             } catch {
                 log(.error, "scan event handling failed: \(error)")
-                emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+                emitReady()
             }
         }
     }
@@ -223,7 +252,7 @@ public actor PrinterSession {
         case .scanPagesComplete:
             await finishDocument()
             jpegPage = 0
-            emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+            emitReady()
         case .hostSelected:
             break // the user is browsing the shortcut menu
         case let .unknown(raw):
@@ -244,8 +273,13 @@ public actor PrinterSession {
         let useAdf = (caps?.hasAdf ?? false) && status.adfLoaded
         let settings = preferences.scanSettings(for: useAdf ? .adf : .platen, caps: caps)
         let pages = try await client.scanPages(settings)
-        var single = single
-        if settings.source == .adf { single = true } // a feeder run is a complete document
+        // A feeder run is a complete document.
+        try await store(pages, format: format, dpi: settings.resolution, single: single || settings.source == .adf)
+    }
+
+    /// Writes JPEG pages at once, or appends them to the open PDF, which is
+    /// closed when `single` says the document is complete.
+    func store(_ pages: [Data], format: OutputFormat, dpi: Int, single: Bool) async throws {
         if format == .jpeg {
             for img in pages {
                 jpegPage += 1
@@ -255,19 +289,19 @@ public actor PrinterSession {
                 emit(.saved(SavedScan(url: url, pages: 1, format: .jpeg, printer: printer.displayName)))
             }
             if single { jpegPage = 0 }
-            emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+            emitReady()
             return
         }
         var doc = document ?? ScanDocument()
         for img in pages {
-            doc.pages.append(PDFWriter.Page(jpeg: img, dpi: settings.resolution))
+            doc.pages.append(PDFWriter.Page(jpeg: img, dpi: dpi))
         }
         doc.lastPage = Date()
         document = doc
         log(.info, "pages captured: \(pages.count) new, \(doc.pages.count) total")
         if single {
             await finishDocument()
-            emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+            emitReady()
         } else {
             emit(.status(.waitingForMorePages(pages: doc.pages.count)))
         }
@@ -275,14 +309,14 @@ public actor PrinterSession {
 
     /// Closes a PDF that received no page for `pageTimeout` (the printer never
     /// sent ScanPagesComplete).
-    private func expireDocument() async {
+    func expireDocument() async {
         guard let doc = document, doc.isExpired(now: Date(), timeout: preferences.pageTimeout) else { return }
         log(.info, "no further pages, closing document with \(doc.pages.count) pages")
         await finishDocument()
-        emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+        emitReady()
     }
 
-    private func finishDocument() async {
+    func finishDocument() async {
         guard let doc = document else { return }
         document = nil
         guard !doc.pages.isEmpty else { return }
@@ -299,12 +333,16 @@ public actor PrinterSession {
 
     // MARK: - Reporting
 
-    private func emit(_ event: SessionEvent) {
+    func emitReady() {
+        emit(.status(.ready(flavor: flavor, hasAdf: caps?.hasAdf ?? false)))
+    }
+
+    func emit(_ event: SessionEvent) {
         if case let .status(s) = event { lastStatus = s }
         continuation.yield(event)
     }
 
-    private func log(_ level: LogEntry.Level, _ message: String) {
+    func log(_ level: LogEntry.Level, _ message: String) {
         let name = printer.displayName
         switch level {
         case .debug: Log.session.debug("session[\(name)]: \(message)")

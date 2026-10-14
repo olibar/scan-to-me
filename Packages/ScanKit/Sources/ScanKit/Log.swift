@@ -9,4 +9,5 @@ enum Log {
     static let discover = Logger(subsystem: subsystem, category: "discover")
     static let sink = Logger(subsystem: subsystem, category: "sink")
     static let pdf = Logger(subsystem: subsystem, category: "pdf")
+    static let escl = Logger(subsystem: subsystem, category: "escl")
 }
