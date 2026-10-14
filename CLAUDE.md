@@ -27,8 +27,9 @@ brand names out of identifiers, UI strings and App Store metadata.
   Edit `project.yml`, never the target settings in Xcode; regenerate with
   `xcodegen generate` and commit both.
 - `design/make-icon.swift` -- generator of the app icon (`swift
-  design/make-icon.swift` from the repo root rewrites AppIcon.png). Change the
-  icon there, never by editing the PNG.
+  design/make-icon.swift` from the repo root rewrites AppIcon.png and the
+  iOS 18 dark and tinted variants). Change the icon there, never by editing
+  the PNGs.
 
 ## Commands
 
