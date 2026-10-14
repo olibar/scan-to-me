@@ -87,15 +87,12 @@ public enum ScannerBrowser {
         guard case let .service(name, _, _, _) = result.endpoint else { return nil }
         var model: String?
         var mfg: String?
-        var note: String?
         var uuid: String?
         if case let .bonjour(txt) = result.metadata {
             model = txt.dictionary["ty"]
             mfg = txt.dictionary["mfg"]
-            note = txt.dictionary["note"]
             uuid = txt.dictionary["UUID"]
         }
-        return DiscoveredScanner(serviceName: name, model: model, mfg: mfg, note: note, uuid: uuid,
-                                 endpoint: result.endpoint)
+        return DiscoveredScanner(serviceName: name, model: model, mfg: mfg, uuid: uuid, endpoint: result.endpoint)
     }
 }

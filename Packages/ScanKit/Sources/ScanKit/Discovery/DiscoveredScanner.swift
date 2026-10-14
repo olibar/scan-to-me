@@ -9,30 +9,20 @@ public struct DiscoveredScanner: Sendable, Identifiable, Hashable {
     public let model: String?
     /// "mfg" TXT record.
     public let mfg: String?
-    /// "note" TXT record: the location set in the printer's web page, e.g.
-    /// "Home". Empty or nil when never set.
-    public let note: String?
     /// "UUID" TXT record: unique per printer, even for identical models.
     public let uuid: String?
     public let endpoint: NWEndpoint
 
     public var id: String { serviceName }
 
-    public init(serviceName: String, model: String?, mfg: String?, note: String? = nil, uuid: String? = nil,
-                endpoint: NWEndpoint) {
+    public init(serviceName: String, model: String?, mfg: String?, uuid: String? = nil, endpoint: NWEndpoint) {
         self.serviceName = serviceName
         self.model = model
         self.mfg = mfg
-        self.note = note
         self.uuid = uuid
         self.endpoint = endpoint
     }
 
-    /// The location when the printer has one, the model otherwise.
-    public var suggestedName: String {
-        if let note, !note.trimmingCharacters(in: .whitespaces).isEmpty { return note }
-        return model ?? serviceName
-    }
 
     public var isHP: Bool {
         DiscoveredScanner.isHP(name: serviceName, model: model, mfg: mfg)
