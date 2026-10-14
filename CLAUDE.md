@@ -57,7 +57,9 @@ xcodebuild -scheme ScanToMe -destination 'generic/platform=iOS Simulator' build
 
 - Product name `ScanToMe`, bundle id `com.obarlier.scantome`, home-screen
   name "Scan to Me". Published from Olivier's individual developer account
-  (obarlier@gmail.com), not SiniMed. The 1.0 submission under SiniMed
+  (obarlier@gmail.com, team QUQFF7KH2L, set in project.yml), not SiniMed.
+  Xcode also holds the SiniMed Apple ID (company team 2E9B65SZ35 and its free
+  personal team RXKYE6K3M8): never sign this app with either. The 1.0 submission under SiniMed
   (`com.sinimed.hpscan`, "Scan to Me for HP printers") was rejected for naming
   HP hardware without authorization and is abandoned.
 - App Review: no printer brand in the name, subtitle, keywords, description,

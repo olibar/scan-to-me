@@ -16,8 +16,8 @@ settings:
     SWIFT_VERSION: "6.0"
     SWIFT_STRICT_CONCURRENCY: complete
     CODE_SIGN_STYLE: Automatic
-    # Set your Apple Developer team here or in Xcode's Signing pane.
-    DEVELOPMENT_TEAM: ""
+    # Olivier Barlier individual team (obarlier@gmail.com).
+    DEVELOPMENT_TEAM: QUQFF7KH2L
     ENABLE_USER_SCRIPT_SANDBOXING: YES
 targets:
   ScanToMe:
